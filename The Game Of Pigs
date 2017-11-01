@@ -88,3 +88,4 @@ while P1Score < 80 or P2Score < 80:
             print(D1, D2)
             print("P2 Score =", P2Score)
             turn = int(input("Do you wanna roll again Yes = 2 No = 1"))
+ 
