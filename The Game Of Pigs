@@ -1,0 +1,90 @@
+import random
+n = 6
+m = 6
+P1Score = 0
+P2Score = 0
+print("Rules:")
+print("Roll a 1 you lose all points")
+print("Roll two 1 get 25 points")
+print("Roll two of the same get double points")
+print("First to 80 wins")
+turn = int(input("Who rolls first P1=1, or P2=2:"))
+while P1Score < 80 or P2Score < 80:
+    if turn == 1:
+        print("Player 1 Turn")
+        D1 = int(n*random.random())+1
+        D2 = int(m*random.random())+1
+        if D1 == D2 and D1 == 1:
+            P1Score = P1Score + 25
+            if P1Score > 80 or P1Score == 80:
+                print("Player 1 Wins")
+                print("P1 Score =", P1Score)
+                break
+            print(D1, D2)
+            print("Snake Eyes!")
+            print("25 Points!")
+            print("P1 Score =", P1Score)
+            turn = int(input("Do you wanna roll again Yes = 1 No = 2"))
+        elif D1 == 1 or D2 == 1:
+            P1Score = P1Score * 0
+            print(D1, D2)
+            print("P1 Score =", P1Score)
+            turn = 2
+        if D1 == D2 and D2 != 1:
+            P1Score = P1Score + (D1+D2)*2
+            if P1Score > 80 or P1Score == 80:
+                print("Player 1 Wins")
+                print("P1 Score =", P1Score)
+                break
+            print(D1, D2)
+            print("Double Points")
+            print("P1 Score =", P1Score)
+            turn = int(input("Do you wanna roll again Yes = 1 No = 2"))
+        elif D1 > 1 and D2 > 1:
+            P1Score = P1Score + D1 + D2
+            if P1Score > 80 or P1Score == 80:
+                print("Player 1 Wins")
+                print("P1 Score =", P1Score)
+                break
+            print(D1, D2)
+            print("P1 Score =", P1Score)
+            turn = int(input("Do you wanna roll again Yes = 1 No = 2"))
+    if turn == 2:
+        print("Player 2 Turn")
+        D1 = int(n*random.random())+1
+        D2 = int(m*random.random())+1
+        if D1 == D2 and D1 == 1:
+            P2Score = P2Score + 25
+            if P2Score > 80 or P2Score == 80:
+                print("Player 2 Wins")
+                print("P2 Score =", P2Score)
+                break
+            print(D1, D2)
+            print("Snake Eyes!")
+            print("25 Points!")
+            print("P2 Score =", P2Score)
+            turn = int(input("Do you wanna roll again Yes = 2 No = 1"))
+        elif D1 == 1 or D2 == 1:
+            P2Score = P2Score * 0
+            print(D1, D2)
+            print("P2 Score =", P2Score)
+            turn = 1
+        if D1 == D2 and D2 != 1:
+            P2Score = P2Score + (D1+D2)*2
+            if P2Score > 80 or P2Score == 80:
+                print("Player 2 Wins")
+                print("P2 Score =", P2Score)
+                break
+            print(D1, D2)
+            print("Double Points")
+            print("P2 Score =", P2Score)
+            turn = int(input("Do you wanna roll again Yes = 2 No = 1"))
+        elif D1 > 1 and D2 > 1:
+            P2Score = P2Score + D1 + D2
+            if P2Score > 80 or P2Score == 80:
+                print("Player 2 Wins")
+                print("P2 Score =", P2Score)
+                break
+            print(D1, D2)
+            print("P2 Score =", P2Score)
+            turn = int(input("Do you wanna roll again Yes = 2 No = 1"))
