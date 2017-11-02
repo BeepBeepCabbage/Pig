@@ -1,0 +1,50 @@
+import random
+restart='y'
+while restart == 'y':
+    restart = 0
+    n = 9
+    m = 9
+    Correctscore = 0
+    Incorrectscore = 0
+    k = 0
+    retry = 0
+    question = int(input("How many questions do you want?"))
+    for i in range(0, question):
+        x = int(m * random.random()) + 1
+        y = int(n * random.random()) + 1
+        product = x*y
+        retry = 0
+        print("What is the product of", x, "and", y,)
+        k = int(input("Answer:"))
+        if k == product:
+            print("Correct")
+            Correctscore = Correctscore+1
+            print("Score=", Correctscore)
+        if k < product:
+            print("No, you're under")
+            retry = int(input("Wanna try again (yes=1, no=2):"))
+        if k > product:
+            print("No, you're over")
+            retry = int(input("Wanna try again (yes=1, no=2):"))
+        if retry == 1:
+            print("Try adding", x, "to itself", y, "amount of times")
+            k = int(input("Answer:"))
+            if k == product:
+                print("Correct")
+                Correctscore = Correctscore+1
+                print("Score=", Correctscore)
+            if k < product:
+                print("Incorrect")
+                Incorrectscore = Incorrectscore+1
+                print("Score=", Correctscore)
+            if k > product:
+                print("Incorrect")
+                Incorrectscore = Incorrectscore + 1
+                print("Score=", Correctscore)
+        if retry == 2:
+            print("Okay then next question")
+            Incorrectscore = Incorrectscore+1
+            print("Score=", Correctscore)
+    print("You got ", Correctscore, " correct out of ", question, "and you got", Incorrectscore, "incorrect out of ", question)
+    restart = str(input("Do you wanna try again Y/N "))
+    
