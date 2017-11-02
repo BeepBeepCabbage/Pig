@@ -1,0 +1,34 @@
+import random
+import turtle
+import math
+
+
+def w():
+    character.seth(90)
+    character.forward(50)
+
+
+def d():
+    character.seth(0)
+    character.forward(50)
+
+
+def s():
+    character.seth(270)
+    character.forward(50)
+
+
+def a():
+    character.seth(180)
+    character.forward(50)
+scr = turtle.Screen()
+character = turtle.Turtle()
+character.penup()
+scr.listen()
+scr.onkey(w, "w")
+scr.onkey(a, "a")
+scr.onkey(s,"s")
+scr.onkey(d, "d")
+scr.update()
+
+scr.mainloop()
