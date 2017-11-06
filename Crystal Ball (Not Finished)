@@ -1,0 +1,28 @@
+import random
+
+G1 = 6
+G2 = 6
+G3 = 6
+
+question = input("Who you like me to predict the future, reveal the past, or help you get a answer to a question:")
+if question == "predict":
+    O = int(G1 * random.random())+1
+    answer = input("Ask me a yes or no question and i will predict. ")
+    if O == 1:
+        print("The ball tells me something to grim to tell")
+    if O == 2:
+        print("Odds are in you're favor")
+    if O == 3:
+        print("Without a doubt")
+    if O == 4:
+        print("Don't count on it")
+    if O == 5:
+        print("Signs point to yes")
+    if O == 6:
+        print("Cannot predict now")
+if question == "reveal":
+    A = int(G2 * random.random())+1
+    answer = input("Ask me a question about the past and i will help you answer it")
+    if A == 1:
+        print
+# if question == "answer":
