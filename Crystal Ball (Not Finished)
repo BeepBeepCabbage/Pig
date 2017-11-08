@@ -1,12 +1,38 @@
 import random
 
-G1 = 6
-G2 = 6
-G3 = 6
 
-question = input("Who you like me to predict the future, reveal the past, or help you get a answer to a question:")
-if question == "predict":
-    O = int(G1 * random.random())+1
+def past():
+    J = int(G2 * random.random()) + 1
+    answer = input("Ask me a question and I will reveal the past")
+    if J == 1:
+        print("It is to far back to let me see")
+    if J == 2:
+        print("It tells me you did something to do this")
+    if J == 3:
+        print("Someone changed the course of time")
+    if J == 4:
+        print("This was going to happen no matter what")
+    if J == 5:
+        print("This happened do to a series of events")
+
+
+def test():
+    B = int(G3 * random.random()) + 1
+    answer = input("Ask me a question and i will help you answer it")
+    if B == 1:
+        print("Go with your gut")
+    if B == 2:
+        print("The way you try will fail")
+    if B == 3:
+        print("Try looking at it in a different way")
+    if B == 4:
+        print("This question is too hard for me too answer")
+    if B == 5:
+        print("Try another source")
+
+
+def future():
+    O = int(G1 * random.random()) + 1
     answer = input("Ask me a yes or no question and i will predict. ")
     if O == 1:
         print("The ball tells me something to grim to tell")
@@ -20,9 +46,27 @@ if question == "predict":
         print("Signs point to yes")
     if O == 6:
         print("Cannot predict now")
-if question == "reveal":
-    A = int(G2 * random.random())+1
-    answer = input("Ask me a question about the past and i will help you answer it")
-    if A == 1:
-        print
-# if question == "answer":
+
+
+G1 = 6
+G2 = 5
+G3 = 5
+restart = input("Do you wish to ask me something [Y/N]")
+
+while restart == 'N' or restart == 'n':
+    print("Goodbye")
+    break
+
+while restart == 'Y' or restart == 'y':
+    question = input("Would you like me to predict the future, reveal the past, or help you get a answer to a question:")
+    if question == "predict":
+        future()
+    if question == 'question':
+        test()
+    if question == 'reveal':
+        past()
+    restart = input("Do you wish to ask me something [Y/N]")
+    while restart == 'n' or restart == 'N':
+        print('Goodbye')
+        break
+
