@@ -3,6 +3,8 @@ import random
 import time
 order = 4
 order_2 = 2
+wait_time = 0.5
+color_order = []
 scr = turtle.Screen()
 red_block = turtle.Turtle()
 blue_block = turtle.Turtle()
@@ -44,26 +46,31 @@ def square_order():
         x = int(order * random.random()) + 1
         if x == 1:
             red_block.hideturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
             red_block.showturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
+            color_order.insert(0, "red square")
         if x == 2:
             blue_block.hideturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
             blue_block.showturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
+            color_order.insert(0, "blue square")
         if x == 3:
             yellow_block.hideturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
             yellow_block.showturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
+            color_order.insert(0, "yellow square")
         if x == 4:
             green_block.hideturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
             green_block.showturtle()
-            time.sleep(0.5)
+            time.sleep(wait_time)
+            color_order.insert(0, "green square")
 order_2 = order_2 + 1
-
+wait_time = wait_time - 0.02
 turtle_startup()
 square_order()
+print(color_order)
 scr.mainloop()
