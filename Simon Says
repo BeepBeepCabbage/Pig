@@ -1,0 +1,62 @@
+import turtle
+import random
+import time
+order = 4
+scr = turtle.Screen()
+red_block = turtle.Turtle()
+blue_block = turtle.Turtle()
+yellow_block = turtle.Turtle()
+green_block = turtle.Turtle()
+
+
+def turtle_startup():
+
+    red_block.penup()
+    green_block.penup()
+    yellow_block.penup()
+    blue_block.penup()
+
+    scr.bgcolor('black')
+    red_block.shape('square')
+    yellow_block.shape('square')
+    blue_block.shape('square')
+    green_block.shape('square')
+
+    red_block.turtlesize(9)
+    blue_block.turtlesize(9)
+    yellow_block.turtlesize(9)
+    green_block.turtlesize(9)
+
+    red_block.color('red')
+    blue_block.color('blue')
+    yellow_block.color('yellow')
+    green_block.color('green')
+
+    red_block.goto(-100, -100)
+    blue_block.goto(100, 100)
+    yellow_block.goto(-100, 100)
+    green_block.goto(100, -100)
+
+
+def square_order():
+    x = int(order * random.random())+1
+    if x == 1:
+        red_block.hideturtle()
+        time.sleep(1)
+        reb_block.showturtle()
+    if x == 2:
+        blue_block.hideturtle()
+        time.sleep(1)
+        blue_block.showturtle()
+    if x == 3:
+        yellow_block.hideturtle()
+        time.sleep(1)
+        yellow_block.showturtle()
+    if x == 4:
+        green_block.hideturtle()
+        time.sleep(1)
+        green_block.showturtle()
+
+turtle_startup()
+square_order()
+scr.mainloop()
