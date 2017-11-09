@@ -2,6 +2,7 @@ import turtle
 import random
 import time
 order = 4
+order_2 = 2
 scr = turtle.Screen()
 red_block = turtle.Turtle()
 blue_block = turtle.Turtle()
@@ -39,23 +40,29 @@ def turtle_startup():
 
 
 def square_order():
-    x = int(order * random.random())+1
-    if x == 1:
-        red_block.hideturtle()
-        time.sleep(1)
-        reb_block.showturtle()
-    if x == 2:
-        blue_block.hideturtle()
-        time.sleep(1)
-        blue_block.showturtle()
-    if x == 3:
-        yellow_block.hideturtle()
-        time.sleep(1)
-        yellow_block.showturtle()
-    if x == 4:
-        green_block.hideturtle()
-        time.sleep(1)
-        green_block.showturtle()
+    for i in range(1, order_2):
+        x = int(order * random.random()) + 1
+        if x == 1:
+            red_block.hideturtle()
+            time.sleep(0.5)
+            red_block.showturtle()
+            time.sleep(0.5)
+        if x == 2:
+            blue_block.hideturtle()
+            time.sleep(0.5)
+            blue_block.showturtle()
+            time.sleep(0.5)
+        if x == 3:
+            yellow_block.hideturtle()
+            time.sleep(0.5)
+            yellow_block.showturtle()
+            time.sleep(0.5)
+        if x == 4:
+            green_block.hideturtle()
+            time.sleep(0.5)
+            green_block.showturtle()
+            time.sleep(0.5)
+order_2 = order_2 + 1
 
 turtle_startup()
 square_order()
