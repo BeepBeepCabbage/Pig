@@ -8,18 +8,24 @@ player_color_order_2 = -1
 player_color_order = []
 wait_time = 0.5
 scr = turtle.Screen()
+# scr.tracer(2,0)
 red_block = turtle.Turtle()
 blue_block = turtle.Turtle()
 yellow_block = turtle.Turtle()
 green_block = turtle.Turtle()
 color_order = []
+turtle_mouse = turtle.Turtle()
+turtle_mouse.penup()
+if turtle_mouse.xcor() > 1 and turtle_mouse.ycor() > 1:
+    player_color_order.insert(player_color_order_2, "blue square")
+    print("Yes")
 
 
-def add_red_block():
-    player_color_order_2 = -1
-    player_color_order.insert(player_color_order_2, "red square")
-    player_color_order_2 = player_color_order_2 + 1
-    print(player_color_order)
+def mouse_cord():
+        wherenowx = turtle_mouse.xcor()
+        wherenowy = turtle_mouse.ycor()
+        print(wherenowx)
+        print(wherenowy)
 
 
 def turtle_startup():
@@ -84,9 +90,12 @@ for i in range(1, order_2):
     block_color_order_2 = block_color_order_2 + 1
 scr.listen()
 turtle_startup()
+scr.onscreenclick(turtle_mouse.goto)
 square_order()
+
 reversed(color_order)
 print(color_order)
-scr.onkey(add_red_block(), "r")
 scr.update()
+
 scr.mainloop()
+
