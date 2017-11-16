@@ -1,8 +1,9 @@
 import turtle
 import random
 import time
+
 order = 4
-order_2 = 3
+order_2 = 4
 block_color_order_2 = -1
 # amount_of_tries = 0
 player_color_order_2 = -1
@@ -10,8 +11,10 @@ player_color_order = []
 wait_time = 0.5
 scr = turtle.Screen()
 # scr.tracer(2,0)
+player_answer = 'Correct'
 red_block = turtle.Turtle()
 blue_block = turtle.Turtle()
+player_answer_2 = 34
 yellow_block = turtle.Turtle()
 green_block = turtle.Turtle()
 color_order = []
@@ -28,29 +31,29 @@ def travelto(btn, add):
     listlocs.append(wherenowy)
     # turtle03.write(wherenowx, move=False,align='left', font=('Arial', 18, 'normal'))
     # turtle03.write(wherenowy, move=False, align='right', font=('Arial', 18, 'normal'))
-    #print(listlocs)
+    # print(listlocs)
     scr.update()
     if wherenowx <= 210 and wherenowx >= 0 and wherenowy <= 210 and wherenowy >= 0:
         player_color_order.insert(player_color_order_2, "blue square")
         print(player_color_order)
     if wherenowx <= 210 and wherenowx >= 0 and wherenowy >= -210 and wherenowy <= 0:
-        player_color_order.insert(player_color_order_2,"red square")
+        player_color_order.insert(player_color_order_2, "red square")
         print(player_color_order)
     if wherenowx >= -210 and wherenowx <= 0 and wherenowy <= 210 and wherenowy >= 0:
         player_color_order.insert(player_color_order_2, "green square")
         print(player_color_order)
     if wherenowx >= -210 and wherenowx <= 0 and wherenowy >= -210 and wherenowy <= 0:
-        player_color_order.insert(player_color_order_2,"yellow square")
+        player_color_order.insert(player_color_order_2, "yellow square")
         print(player_color_order)
     if len(color_order) == len(player_color_order) and color_order == player_color_order:
-        print("Correct")
-        
+        player_answer = 'Correct'
+        print ('Correct')
     if len(color_order) == len(player_color_order) and color_order != player_color_order:
-        print("Incorrect")
+        player_answer = 'Incorrect'
+        print ('Incorrect')
 
 
 def turtle_startup():
-
     red_block.penup()
     green_block.penup()
     yellow_block.penup()
@@ -79,48 +82,52 @@ def turtle_startup():
 
 
 def square_order():
-        for i in range(1, order_2):
-            x = int(order * random.random()) + 1
-            if x == 1:
-                red_block.hideturtle()
-                time.sleep(wait_time)
-                red_block.showturtle()
-                time.sleep(wait_time)
-                color_order.insert(block_color_order_2, "red square")
-            if x == 2:
-                blue_block.hideturtle()
-                time.sleep(wait_time)
-                blue_block.showturtle()
-                time.sleep(wait_time)
-                color_order.insert(block_color_order_2, "blue square")
-            if x == 3:
-                yellow_block.hideturtle()
-                time.sleep(wait_time)
-                yellow_block.showturtle()
-                time.sleep(wait_time)
-                color_order.insert(block_color_order_2, "yellow square")
-            if x == 4:
-                green_block.hideturtle()
-                time.sleep(wait_time)
-                green_block.showturtle()
-                time.sleep(wait_time)
-                color_order.insert(block_color_order_2, "green square")
-            # while len(color_order) == len(player_color_order) and color_order != player_color_order:
-            #     timw.sleep(10)
-order_2 = order_2 + 1
-wait_time = wait_time - 0.02
+    for i in range(1, order_2):
+        x = int(order * random.random()) + 1
+        if x == 1:
+            red_block.hideturtle()
+            time.sleep(wait_time)
+            red_block.showturtle()
+            time.sleep(wait_time)
+            color_order.insert(block_color_order_2, "red square")
+        if x == 2:
+            blue_block.hideturtle()
+            time.sleep(wait_time)
+            blue_block.showturtle()
+            time.sleep(wait_time)
+            color_order.insert(block_color_order_2, "blue square")
+        if x == 3:
+            yellow_block.hideturtle()
+            time.sleep(wait_time)
+            yellow_block.showturtle()
+            time.sleep(wait_time)
+            color_order.insert(block_color_order_2, "yellow square")
+        if x == 4:
+            green_block.hideturtle()
+            time.sleep(wait_time)
+            green_block.showturtle()
+            time.sleep(wait_time)
+            color_order.insert(block_color_order_2, "green square")
+
+            
+scr.onclick(turtle03.goto)
 for i in range(1, order_2):
     block_color_order_2 = block_color_order_2 + 1
     player_color_order_2 = player_color_order_2 + 1
 scr.listen()
-turtle_startup()
-scr.onclick(turtle03.goto)
-square_order()
-reversed(color_order)
-# amount_of_tries = int(len(color_order))
-# print(amount_of_tries)
-print(color_order)
-scr.onclick(travelto, 1, True)
-scr.update()
-scr.mainloop()
+if player_answer == 'Correct':
+    player_color_order = []
+    color_order = []
+    turtle_startup()
+    square_order()
+    reversed(color_order)
+    print(color_order)
+    scr.onclick(travelto, 1, True)
+    order_2 = order_2 + 1
+    wait_time = wait_time - 0.02
 
+if player_answer_2 == 'Incorrect':
+    print('32')
+
+scr.update()
+turtle.mainloop()
