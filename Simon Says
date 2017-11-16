@@ -29,10 +29,6 @@ def travelto(btn, add):
     wherenowy = int(turtle03.ycor())
     listlocs.append(wherenowx)
     listlocs.append(wherenowy)
-    # turtle03.write(wherenowx, move=False,align='left', font=('Arial', 18, 'normal'))
-    # turtle03.write(wherenowy, move=False, align='right', font=('Arial', 18, 'normal'))
-    # print(listlocs)
-    scr.update()
     if wherenowx <= 210 and wherenowx >= 0 and wherenowy <= 210 and wherenowy >= 0:
         player_color_order.insert(player_color_order_2, "blue square")
         print(player_color_order)
@@ -49,7 +45,6 @@ def travelto(btn, add):
         player_answer = 'Correct'
         print ('Correct')
     if len(color_order) == len(player_color_order) and color_order != player_color_order:
-        player_answer = 'Incorrect'
         print ('Incorrect')
 
 
@@ -109,7 +104,7 @@ def square_order():
             time.sleep(wait_time)
             color_order.insert(block_color_order_2, "green square")
 
-            
+
 scr.onclick(turtle03.goto)
 for i in range(1, order_2):
     block_color_order_2 = block_color_order_2 + 1
@@ -126,8 +121,9 @@ if player_answer == 'Correct':
     order_2 = order_2 + 1
     wait_time = wait_time - 0.02
 
-if player_answer_2 == 'Incorrect':
+if player_answer == 'Incorrect':
     print('32')
-
+    
 scr.update()
 turtle.mainloop()
+
