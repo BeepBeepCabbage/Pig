@@ -1,0 +1,20 @@
+import random
+simonsmoveslist = []
+simonlistcounter = 1
+currentsimonmoves = 0
+currentsimongamemoves = []
+for i in range (1,10):
+    x = random.randrange(1,5)
+    simonsmoveslist.append(x)
+
+print (simonsmoveslist)
+
+simontalks = 1
+
+for jones in range (1,10):
+    currentsimonmoves = simonsmoveslist[:jones]
+    print (len(currentsimonmoves))
+    b = len(currentsimonmoves)
+    print (currentsimonmoves)
+    for x in range (1, b+1):
+        print("bep")
