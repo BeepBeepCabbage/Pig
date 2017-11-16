@@ -1,0 +1,104 @@
+import turtle
+import random
+import time
+
+order = 4
+order_2 = 4
+block_color_order_2 = -1
+# amount_of_tries = 0
+player_color_order_2 = -1
+player_color_order = []
+wait_time = 0.5
+scr = turtle.Screen()
+# scr.tracer(2,0)
+player_answer = 'Correct'
+red_block = turtle.Turtle()
+blue_block = turtle.Turtle()
+player_answer_2 = 34
+yellow_block = turtle.Turtle()
+green_block = turtle.Turtle()
+color_order = []
+current_simon_move_list = []
+turtle03 = turtle.Turtle()
+listlocs = []
+
+
+def travelto(btn, add):
+    wherenow = turtle03.position()
+    wherenowx = int(turtle03.xcor())
+    wherenowy = int(turtle03.ycor())
+    listlocs.append(wherenowx)
+    listlocs.append(wherenowy)
+    if wherenowx <= 210 and wherenowx >= 0 and wherenowy <= 210 and wherenowy >= 0:
+        player_color_order.insert(player_color_order_2, "blue square")
+        print(player_color_order)
+    if wherenowx <= 210 and wherenowx >= 0 and wherenowy >= -210 and wherenowy <= 0:
+        player_color_order.insert(player_color_order_2, "red square")
+        print(player_color_order)
+    if wherenowx >= -210 and wherenowx <= 0 and wherenowy <= 210 and wherenowy >= 0:
+        player_color_order.insert(player_color_order_2, "green square")
+        print(player_color_order)
+    if wherenowx >= -210 and wherenowx <= 0 and wherenowy >= -210 and wherenowy <= 0:
+        player_color_order.insert(player_color_order_2, "yellow square")
+        print(player_color_order)
+    if len(current_simon_move_list) == len(player_color_order) and current_simon_move_list == player_color_order:
+        player_answer = 'Correct'
+        print('Correct')
+    if len(current_simon_move_list) == len(player_color_order) and current_simon_move_list != player_color_order:
+        print('Incorrect')
+
+
+def turtle_startup():
+    red_block.penup()
+    green_block.penup()
+    yellow_block.penup()
+    blue_block.penup()
+
+    scr.bgcolor('black')
+    red_block.shape('square')
+    yellow_block.shape('square')
+    blue_block.shape('square')
+    green_block.shape('square')
+
+    red_block.turtlesize(9)
+    blue_block.turtlesize(9)
+    yellow_block.turtlesize(9)
+    green_block.turtlesize(9)
+
+    red_block.color('red')
+    blue_block.color('blue')
+    yellow_block.color('yellow')
+    green_block.color('green')
+
+    red_block.goto(100, -100)
+    blue_block.goto(100, 100)
+    yellow_block.goto(-100, -100)
+    green_block.goto(-100, 100)
+
+
+for i in range(1, 10):
+    x = int(order * random.random()) + 1
+    if x == 1:
+        color_order.append('red block')
+    if x == 2:
+        color_order.append('blue block')
+
+    if x == 3:
+        color_order.append('green block')
+
+    if x == 4:
+        color_order.append('yellow block')
+
+    print(color_order)
+
+
+def current_simon_move():
+    for b in range (1, 10):
+        current_simon_move_list = color_order[:b]
+        print(current_simon_move_list)
+        # wait_until(len(current_simon_move_list) == len(player_color_order))
+scr.onclick(turtle03.goto)
+turtle_startup()
+current_simon_move()
+scr.update()
+scr.mainloop()
