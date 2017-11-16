@@ -11,7 +11,7 @@ player_color_order = []
 wait_time = 0.5
 scr = turtle.Screen()
 # scr.tracer(2,0)
-player_answer = 'Correct'
+player_answer = 0
 red_block = turtle.Turtle()
 blue_block = turtle.Turtle()
 player_answer_2 = 34
@@ -43,9 +43,10 @@ def travelto(btn, add):
         print(player_color_order)
     if len(color_order) == len(player_color_order) and color_order == player_color_order:
         player_answer = 'Correct'
-        print ('Correct')
+        print('Correct')
     if len(color_order) == len(player_color_order) and color_order != player_color_order:
-        print ('Incorrect')
+        player_answer = 'Incorrect'
+        print('Incorrect')
 
 
 def turtle_startup():
@@ -105,25 +106,29 @@ def square_order():
             color_order.insert(block_color_order_2, "green square")
 
 
-scr.onclick(turtle03.goto)
+def answer_decider():
+    order_2 = 4
+    wait_time = 0.5
+    if player_answer == 'Correct':
+        player_color_order = []
+        color_order = []
+        square_order()
+        reversed(color_order)
+        print(color_order)
+        scr.onclick(travelto, 1, True)
+        order_2 = order_2 + 1
+        wait_time = wait_time - 0.02
+    if player_answer == 'Incorrect':
+        print('32')
 for i in range(1, order_2):
     block_color_order_2 = block_color_order_2 + 1
     player_color_order_2 = player_color_order_2 + 1
 scr.listen()
-if player_answer == 'Correct':
-    player_color_order = []
-    color_order = []
+while True:
+    scr.onclick(turtle03.goto)
     turtle_startup()
     square_order()
-    reversed(color_order)
-    print(color_order)
     scr.onclick(travelto, 1, True)
-    order_2 = order_2 + 1
-    wait_time = wait_time - 0.02
-
-if player_answer == 'Incorrect':
-    print('32')
-    
-scr.update()
-turtle.mainloop()
-
+    answer_decider()
+    scr.update()
+    scr.mainloop()
