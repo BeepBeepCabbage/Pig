@@ -8,6 +8,7 @@ ball_pointing = 360
 
 
 def pong_game_start():
+    turtle.screens
     ball.shape("circle")
     left_paddle.shape("square")
     right_paddle.shape("square")
@@ -23,30 +24,33 @@ def pong_game_start():
 
 
 def w():
-    right_paddle.seth(90)
-    right_paddle.forward(10)
-
-
-def s():
-    right_paddle.seth(270)
-    right_paddle.forward(10)
-
-
-def up():
     left_paddle.seth(90)
     left_paddle.forward(10)
 
 
-def down():
+def s():
     left_paddle.seth(270)
     left_paddle.forward(10)
+
+
+def up():
+    right_paddle.seth(90)
+    right_paddle.forward(10)
+
+
+def down():
+    right_paddle.seth(270)
+    right_paddle.forward(10)
 
 
 def ball_direction():
     n = int(ball_pointing * random.random()) + 1
     ball.setheading(n)
+    if n == 180:
+        n = int(ball_pointing * random.random()) + 1
+        ball.setheading(n)
     while ball.xcor() < 250 and ball.xcor() > -250:
-        ball.forward(1)
+        ball.forward(1.3)
 scr.listen()
 scr.onkeypress(w, 'w')
 scr.onkeypress(s, 's')
