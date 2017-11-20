@@ -1,0 +1,76 @@
+import turtle
+
+scr = turtle.Screen()
+player_1 = turtle.Turtle()
+player_2 = turtle.Turtle()
+player_1_past_locations = []
+player_2_past_locations = []
+
+
+def start():
+    player_1.penup()
+    player_2.penup()
+    player_1.goto(-180, -180)
+    player_2.goto(180, 180)
+    player_1.pendown()
+    player_2.pendown()
+    player_1.color("blue")
+    player_2.color("red")
+    player_1.pencolor("blue")
+    player_2.pencolor("red")
+    player_1.pensize(3)
+    player_2.pensize(3)
+    while 1 == 1:
+        player_1.forward(1.6)
+        player_2.forward(1.6)
+        p1_place = player_1.pos
+        p2_place = player_2.pos
+        player_1_past_locations.append(p1_place)
+        player_2_past_locations.append(p2_place)
+
+
+def d():
+    player_1.seth(0)
+
+
+def a():
+    player_1.seth(180)
+
+
+def w():
+    player_1.seth(90)
+
+
+def s():
+    player_1.seth(270)
+
+
+def up():
+    player_2.seth(90)
+
+
+def down():
+    player_2.seth(270)
+
+
+def right():
+    player_2.seth(0)
+
+
+def left():
+    player_2.seth(180)
+
+
+scr.listen()
+
+scr.onkeypress(right, "Right")
+scr.onkeypress(left, "Left")
+scr.onkeypress(down, "Down")
+scr.onkeypress(up, "Up")
+scr.onkeypress(d, "d")
+scr.onkeypress(w, "w")
+scr.onkeypress(s, "s")
+scr.onkeypress(a, "a")
+start()
+
+scr.mainloop()
