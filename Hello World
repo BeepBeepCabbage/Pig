@@ -1,0 +1,9 @@
+import time
+import sys
+import winsound
+d = "Hello World"
+for i in range(0, len(d)):
+    winsound.Beep(235, 100)
+    sys.stdout.write(d[i])
+    sys.stdout.flush()
+    time.sleep(0.5)
