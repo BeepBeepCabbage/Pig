@@ -21,12 +21,18 @@ def start():
     player_1.pensize(3)
     player_2.pensize(3)
     while 1 == 1:
+        player_1_index_number = 0
+        player_2_index_number = 0
         player_1.forward(1.6)
         player_2.forward(1.6)
         p1_place = player_1.pos
         p2_place = player_2.pos
-        player_1_past_locations.append(p1_place)
-        player_2_past_locations.append(p2_place)
+        player_1_past_locations.insert(player_1_index_number, p1_place)
+        player_2_past_locations.insert(player_2_index_number, p2_place)
+        player_2_index_number = player_2_index_number + 1
+        player_1_index_number = player_1_index_number + 1
+        print(player_2_past_locations)
+        print(player_1_past_locations)
 
 
 def d():
