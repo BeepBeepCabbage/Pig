@@ -1,10 +1,16 @@
+
 import turtle
+import pygame
+import sys
+import collections
 
 scr = turtle.Screen()
 player_1 = turtle.Turtle()
 player_2 = turtle.Turtle()
 player_1_past_locations = []
 player_2_past_locations = []
+player_1_index = 0
+player_2_index = 0
 
 
 def start():
@@ -21,18 +27,17 @@ def start():
     player_1.pensize(3)
     player_2.pensize(3)
     while 1 == 1:
-        player_1_index_number = 0
-        player_2_index_number = 0
-        player_1.forward(1.6)
-        player_2.forward(1.6)
-        p1_place = player_1.pos
-        p2_place = player_2.pos
-        player_1_past_locations.insert(player_1_index_number, p1_place)
-        player_2_past_locations.insert(player_2_index_number, p2_place)
-        player_2_index_number = player_2_index_number + 1
-        player_1_index_number = player_1_index_number + 1
-        print(player_2_past_locations)
-        print(player_1_past_locations)
+        player_1.forward(3)
+        player_2.forward(3)
+        player_1_past_locations.append(player_1.pos())
+        player_2_past_locations.append(player_2.pos())
+        if set(player_1_past_locations) & set(player_2_past_locations):
+            players_index =(set(player_1_past_locations) & set(player_2_past_locations))
+
+            return
+        if player_1.distance(player_2) <= 5:
+            print("Game Over")
+            return
 
 
 def d():
