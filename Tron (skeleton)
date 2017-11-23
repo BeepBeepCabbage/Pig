@@ -1,7 +1,4 @@
 import turtle
-import pygame
-import sys
-import collections
 import time
 
 scr = turtle.Screen()
@@ -18,6 +15,7 @@ def start():
     player_2.goto(180, 180)
     player_1.pendown()
     player_2.pendown()
+    scr.bgcolor("black")
     player_1.color("blue")
     player_2.color("red")
     player_1.pencolor("blue")
@@ -34,20 +32,34 @@ def start():
         player_1_past_locations.insert(player_1_index, player_1.pos())
         player_2_past_locations.insert(player_2_index, player_2.pos())
         if set(player_1_past_locations) & set(player_2_past_locations):
-            cross = (set(player_1_past_locations) & set(player_2_past_locations))
-            # player_1_index = cross in player_1_past_locations
-            # player_2_index = cross in player_2_past_locations
-            print(cross)
-            print(player_1_past_locations)
-            print(player_2_past_locations)
-            M = (player_1_past_locations.index(cross))
-            print(M)
             return
         if player_1.distance(player_2) <= 7:
-            print("Game Over")
+            print ("Game Over")
             return
-
-
+        if player_1.ycor() <= -330:
+            print ("Red Wins")
+            return
+        if player_2.ycor() <= -330:
+            print ("Blue Wins")
+            return
+        if player_1.ycor() >= 330:
+            print ("Red Wins")
+            return
+        if player_2.ycor() >= 330:
+            print ("Blue Wins")
+            return
+        if player_1.xcor() <= -399:
+            print ("Red Wins")
+            return
+        if player_2.xcor() <= -399:
+            print ("Blue Wins")
+            return
+        if player_1.xcor() >= 393:
+            print ("Red Wins")
+            return
+        if player_2.xcor() >= 393:
+            print ("Blue Wins")
+            return
 def d():
     player_1.seth(0)
 
@@ -80,16 +92,21 @@ def left():
     player_2.seth(180)
 
 
-scr.listen()
+def space():
+    print (player_1_past_locations)
+    print (player_2_past_locations)
 
-scr.onkeypress(right, "Right")
-scr.onkeypress(left, "Left")
-scr.onkeypress(down, "Down")
-scr.onkeypress(up, "Up")
-scr.onkeypress(d, "d")
-scr.onkeypress(w, "w")
-scr.onkeypress(s, "s")
-scr.onkeypress(a, "a")
+
+scr.listen()
+scr.onkey(space, "space")
+scr.onkey(right, "Right")
+scr.onkey(left, "Left")
+scr.onkey(down, "Down")
+scr.onkey(up, "Up")
+scr.onkey(d, "d")
+scr.onkey(w, "w")
+scr.onkey(s, "s")
+scr.onkey(a, "a")
 start()
 
-scr.mainloop()
+turtle.mainloop()
