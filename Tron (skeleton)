@@ -2,13 +2,27 @@ import turtle
 import time
 
 scr = turtle.Screen()
+arena_drawer = turtle.Turtle()
 player_1 = turtle.Turtle()
 player_2 = turtle.Turtle()
 player_1_past_locations = []
 player_2_past_locations = []
+turtle.setup(width=1450, height=1200, startx=0, starty=0)
 
 
 def start():
+    player_1_index = 0
+    player_2_index = 0
+    wait_please = 0
+    arena_drawer.penup()
+    arena_drawer.goto(-330, -319)
+    arena_drawer.pendown()
+    arena_drawer.pencolor("green")
+    arena_drawer.goto(393, -319)
+    arena_drawer.goto(393, 330)
+    arena_drawer.goto(-333, 330)
+    arena_drawer.goto(-333, -319)
+    arena_drawer.hideturtle()
     player_1.penup()
     player_2.penup()
     player_1.goto(-180, -180)
@@ -22,9 +36,8 @@ def start():
     player_2.pencolor("red")
     player_1.pensize(3)
     player_2.pensize(3)
-    while 1 == 1:
-        player_1_index = 0
-        player_2_index = 0
+    while True:
+        wait_please = wait_please + 1
         player_1_index = player_1_index + 1
         player_2_index = player_2_index + 1
         player_1.forward(3)
@@ -34,32 +47,34 @@ def start():
         if set(player_1_past_locations) & set(player_2_past_locations):
             return
         if player_1.distance(player_2) <= 7:
-            print ("Game Over")
+            print("Game Over")
             return
-        if player_1.ycor() <= -330:
-            print ("Red Wins")
+        if player_1.ycor() <= -319:
+            print("Red Wins")
             return
-        if player_2.ycor() <= -330:
-            print ("Blue Wins")
+        if player_2.ycor() <= -319:
+            print("Blue Wins")
             return
         if player_1.ycor() >= 330:
-            print ("Red Wins")
+            print("Red Wins")
             return
         if player_2.ycor() >= 330:
-            print ("Blue Wins")
+            print("Blue Wins")
             return
-        if player_1.xcor() <= -399:
-            print ("Red Wins")
+        if player_1.xcor() <= -339:
+            print("Red Wins")
             return
-        if player_2.xcor() <= -399:
-            print ("Blue Wins")
+        if player_2.xcor() <= -339:
+            print("Blue Wins")
             return
         if player_1.xcor() >= 393:
-            print ("Red Wins")
+            print("Red Wins")
             return
         if player_2.xcor() >= 393:
-            print ("Blue Wins")
+            print("Blue Wins")
             return
+
+
 def d():
     player_1.seth(0)
 
@@ -93,8 +108,8 @@ def left():
 
 
 def space():
-    print (player_1_past_locations)
-    print (player_2_past_locations)
+    print(player_1_past_locations)
+    print(player_2_past_locations)
 
 
 scr.listen()
@@ -110,3 +125,4 @@ scr.onkey(a, "a")
 start()
 
 turtle.mainloop()
+
