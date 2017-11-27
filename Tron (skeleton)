@@ -1,16 +1,25 @@
 import turtle
 import time
+import random
 
 scr = turtle.Screen()
 arena_drawer = turtle.Turtle()
 player_1 = turtle.Turtle()
 player_2 = turtle.Turtle()
+power_up = turtle.Turtle()
 player_1_past_locations = []
 player_2_past_locations = []
 turtle.setup(width=1450, height=1200, startx=0, starty=0)
+g = 300
+h = 300
 
 
 def start():
+    n = 0
+    player_1_speed = 3
+    player_2_speed = 3
+    power_up.penup()
+    power_up.hideturtle()
     player_1_index = 0
     player_2_index = 0
     wait_please = 0
@@ -29,6 +38,8 @@ def start():
     player_2.goto(180, 180)
     player_1.pendown()
     player_2.pendown()
+    power_up.shape("square")
+    power_up.color("green")
     scr.bgcolor("black")
     player_1.color("blue")
     player_2.color("red")
@@ -40,8 +51,8 @@ def start():
         wait_please = wait_please + 1
         player_1_index = player_1_index + 1
         player_2_index = player_2_index + 1
-        player_1.forward(3)
-        player_2.forward(3)
+        player_1.forward(player_1_speed)
+        player_2.forward(player_2_speed)
         player_1_past_locations.insert(player_1_index, player_1.pos())
         player_2_past_locations.insert(player_2_index, player_2.pos())
         if set(player_1_past_locations) & set(player_2_past_locations):
@@ -73,6 +84,18 @@ def start():
         if player_2.xcor() >= 393:
             print("Blue Wins")
             return
+        if wait_please == 100:
+            power_up.goto((g * random.random(), h * random.random()))
+            power_up.showturtle()
+        if player_1.distance(power_up) <= 10:
+            n = 1
+            power_up.hideturtle()
+            power_up.goto(500, 500)
+        if player_2.distance(power_up) <= 10:
+            power_up.hideturtle()
+            power_up.goto(500, 500)
+        if n == 1:
+            player_1.hideturtle()
 
 
 def d():
@@ -125,4 +148,3 @@ scr.onkey(a, "a")
 start()
 
 turtle.mainloop()
-
