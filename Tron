@@ -132,13 +132,7 @@ def left():
     player_2.seth(180)
 
 
-def space():
-    print(player_1_past_locations)
-    print(player_2_past_locations)
-
-
 scr.listen()
-scr.onkey(space, "space")
 scr.onkey(right, "Right")
 scr.onkey(left, "Left")
 scr.onkey(down, "Down")
