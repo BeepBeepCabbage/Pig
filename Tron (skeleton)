@@ -1,5 +1,4 @@
 import turtle
-import time
 import random
 
 scr = turtle.Screen()
@@ -9,8 +8,8 @@ player_2 = turtle.Turtle()
 power_up = turtle.Turtle()
 player_1_past_locations = []
 player_2_past_locations = []
-turtle.setup(width=1450, height=1200, startx=0, starty=0)
-g = 300
+scr.setup(width=1450, height=1200, startx=1, starty=0)
+g = -300
 h = 300
 
 
@@ -92,10 +91,13 @@ def start():
             power_up.hideturtle()
             power_up.goto(500, 500)
         if player_2.distance(power_up) <= 10:
+            n = 2
             power_up.hideturtle()
             power_up.goto(500, 500)
         if n == 1:
-            player_1.hideturtle()
+            player_2.penup()
+        if n == 2:
+            player_1.penup()
 
 
 def d():
@@ -147,4 +149,4 @@ scr.onkey(s, "s")
 scr.onkey(a, "a")
 start()
 
-turtle.mainloop()
+scr.mainloop()
