@@ -1,0 +1,26 @@
+import random
+
+tries = 4
+guess = 0
+h = 14
+possible_words = ["apple", "dinosaur", "algebra", "dankmemes", "ussr", "country", "capitalism", "communism", "school",
+                  "beepbeeplettuce", "pear", "religion", "mouse", "people"]
+start = input("Would you like to play Yes or No")
+if start == 'yes' or start == 'Yes':
+    word_chooser = random.choice(possible_words)
+    print(len(word_chooser), "letters")
+    player_word = [] * len(word_chooser)
+    while guess != word_chooser:
+        guess = input("What letter do you think it is.")
+        if guess in word_chooser:
+            print("Yes")
+
+            print(player_word)
+        if guess not in word_chooser:
+            print("Nope")
+            tries = tries - 1
+        if tries == 0:
+            print("You tried to many times")
+            break
+if start == "No" or start == 'no':
+    print("Okay Bye")
