@@ -1,6 +1,6 @@
 import random
 import collections
-
+import sys
 
 def compare(word_chooser, player_word):
     return sorted(word_chooser) == sorted(player_word)
@@ -12,30 +12,43 @@ possible_words = [['p', 'e', 'a', 'r'], ['b', 'a', 'n', 'a', 'n', 'a'], ['o', 'r
                   ['a', 'p', 'p', 'l', 'e']]
 start = input("Would you like to play Yes or No")
 while start == 'yes' or start == 'Yes' or start == "YES":
+    used_letters = []
     word_chooser = random.choice(possible_words)
     player_word = [] * len(word_chooser)
     print(word_chooser)
     print(len(word_chooser), "letters")
-    while player_word != word_chooser:
+    while len(player_word) != len(word_chooser):
         guess = input("What letter do you think it is.")
-        if word_chooser.count(guess) > 1:
-            for i in range(0, word_chooser.count(guess)):
+        if guess in used_letters:
+            print("Sorry you already used that letter please choose another")
+        else:
+            if word_chooser.count(guess) > 1:
+                used_letters.append(guess)
+                for i in range(0, word_chooser.count(guess)):
+                    player_word.append(guess)
+                if compare(word_chooser, player_word) is True:
+                    print("Yup you got it")
+                    print(word_chooser)
+                    start = input("Would you like to play Yes or No")
+                else:
+                    print(player_word)
+            elif guess in word_chooser:
                 player_word.append(guess)
-            if compare(word_chooser, player_word) is True:
-                print("Yup you got it")
-                print(word_chooser)
-                start = input("Would you like to play Yes or No")
-            else:
+                used_letters.append(guess)
+                print("Yes")
                 print(player_word)
-        elif guess in word_chooser:
-            player_word.append(guess)
-            print("Yes")
-            print(player_word)
-        elif guess not in word_chooser:
-            print("Nope")
-            tries = tries - 1
-        elif tries == 0:
-            print("You tried to many times")
-            break
+            if guess not in word_chooser:
+                print("Nope")
+                used_letters.append(guess)
+                tries = tries - 1
+            if tries == 0:
+                print("You tried to many times")
+                sys.exit()
+        if compare(word_chooser, player_word) is True:
+            print("Yup you got it")
+            print(word_chooser)
+            start = input("Would you like to play Yes or No")
 if start == "No" or start == 'no' or start == 'No':
     print("Okay Bye")
+if start == 'beepbeeplettuce':
+    print("You found the secret")
