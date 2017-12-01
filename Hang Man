@@ -17,9 +17,10 @@ possible_words = [['p', 'e', 'a', 'r'], ['b', 'a', 'n', 'a', 'n', 'a'], ['o', 'r
                   ['l', 'e', 'n', 'n', 'o', 'n'], ['h', 'a', 'r', 'r', 'i', 's', 'o', 'n'], ['r', 'i', 'n', 'g', 'o'],
                   ['r', 'o', 'l', 'l', 'i', 'n', 'g', 's', 't', 'o', 'n', 'e', 's'],
                   ['t', 'w', 'i', 't', 't', 'e', 'r'], ['s', 'w', 'e', 'a', 't', 'e', 'r'],
-                  ['c', 'i', 'r', 'c', 'l', 'e']]
+                  ['c', 'i', 'r', 'c', 'l', 'e'], ['d', 'e', 'm', 'o', 'c', 'r', 'a', 'c', 'y']]
 start = input("Would you like to play Yes or No")
 while start == 'yes' or start == 'Yes' or start == "YES":
+    tries = 4
     used_letters = []
     word_chooser = random.choice(possible_words)
     player_word = [] * len(word_chooser)
@@ -60,4 +61,3 @@ if start == "No" or start == 'no' or start == 'No':
     print("Okay Bye")
 if start == 'beepbeeplettuce':
     print("You found the secret keep this between us")
-#if you want to add any words add them into possible_words and write them as the other words are written
