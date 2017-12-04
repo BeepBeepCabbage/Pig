@@ -1,6 +1,14 @@
 import random
+import time
 
 cards = ['♧Ace', '♧2', '♧3', '♧4', '♧5', '♧6', '♧7', '♧8', '♧9', '♧10', '♧J', '♧Q', '♧K',
          '♥Ace', '♥2', '♥3', '♥4', '♥5', '♥6', '♥7', '♥8', '♥9', '♥10', '♥J', '♥Q', '♥K',
          '♤Ace', '♤2', '♤3', '♤4', '♤5', '♤6', '♤7', '♤8', '♤9', '♤10', '♤J', '♤Q', '♤K',
          '♢Ace', '♢2', '♢3', '♢4', '♢5', '♢6', '♢7', '♢8', '♢9', '♢10', '♢J', '♢Q', '♢K']
+start = input("Would you like to play Yes or No")
+while start == 'Yes' or start == 'yes' or start == 'YES':
+    card_shown = random.choice(cards)
+    print(card_shown)
+    cards.remove(card_shown)
+    time.sleep(0.8)
+    if card_shown
