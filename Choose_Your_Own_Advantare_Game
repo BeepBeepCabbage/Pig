@@ -1,0 +1,37 @@
+print("--------------")
+print("----Escape----")
+print("--------------")
+print("How to play")
+print("To continue type the word in the brackets to make decisions.")
+print("Your choices will have repercussions.")
+first_decisoin = input(
+    "You wake up in a room and are extremely thirsty with have a knife. Do you escape the through the [door] or [window].")
+if first_decisoin == 'door':
+    second_decisoin = input(
+        "You found water but it has changed in color. Do you [drink it] or hold on to it and [continue onward].")
+    if second_decisoin == 'drink it':
+        print("You now feel better and can continue")
+        third_decision_a = input(
+            "You found a dog and when you reach to pet it growls. Do you take out the [knife] or just try [walk around] it.")
+        if third_decision_a == "knife":
+            print("The dog attacks you but are able to kill it.")
+        if third_decision_a == 'walk around':
+            print("The dog attacks you and makes you bleed but you are able to get away.")
+    if second_decisoin == 'continue onward':
+        print("You stay thirsty and hold on to it")
+        third_decision_b = input(
+            "You found a dog and when you reach to pet it growls. Do you take out the [knife] or give it the [water]")
+        if third_decision_b == 'knife':
+            print(
+                "You pull out the knife and the dog immediately attacks and because of your thirst you don't any energy to attack and die.")
+            print("---------------")
+            print("---Game Over---")
+            print("---------------")
+        if third_decision_b == 'water':
+            print("You give the dog water and it lets you pass by.")
+
+if first_decisoin == 'window':
+    print("You fell and died on impact.")
+    print("---------------")
+    print("---Game Over---")
+    print("---------------")
