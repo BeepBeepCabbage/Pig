@@ -1,0 +1,32 @@
+# list_of_numbers = [-3, -10, -7, 0, 5, 10, 43]
+# print("List before", list_of_numbers)
+# list_of_numbers.sort()
+# print("List after", list_of_numbers)
+# print("------------------")
+# print("------------------")
+# list_of_numbers_2 = [-5, -6, -10, 19, 3, 15]
+# print("List before", list_of_numbers_2)
+# list_of_numbers_2.sort()
+# list_of_numbers_2.reverse()
+# print("List after", list_of_numbers_2)
+# print("------------------")
+# print("------------------")
+# list_of_numbers_3 = [-5, -6, -14, -19, 10, 13]
+# print("List before", list_of_numbers_3)
+# print("Biggest number", max(list_of_numbers_3))
+# print("List before", list_of_numbers_3)
+# print(min(list_of_numbers_3))
+x = 0
+poem = [
+    "once", "upon", "a", "midnight", "dreary", "while", "I", "pondered", "weak", "and", "weary",
+    "over", "many", "a", "quaint", "and", "curious", "volume", "of", "forgotten", "lore", "While", "I", "nodded",
+    "nearly", "napping", "suddenly", "there", "came", "a", "tapping", "as", "of", "someone", "gently", "rapping",
+    "rapping", "at", "my", "chamber", "door", "Tis", "some", "visitor", "I", "muttered", "tapping", "at", "my",
+    "chamber", "door", "only", "this", "nothing", "more"]
+word = input("What word would you like to check")
+if word in poem:
+    for i in range(1, word in poem):
+        x = x + 1
+    print("The word", word, "is used ", x, "amount of times")
+if word not in poem:
+    print("Log")
