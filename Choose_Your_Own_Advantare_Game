@@ -1,3 +1,7 @@
+import pickle
+
+total_deaths = 0
+
 print("--------------")
 print("----Escape----")
 print("--------------")
@@ -24,14 +28,35 @@ if first_decisoin == 'door':
         if third_decision_b == 'knife':
             print(
                 "You pull out the knife and the dog immediately attacks and because of your thirst you don't any energy to attack and die.")
+            total_deaths = total_deaths + 1
+            print("Deaths = ", )
             print("---------------")
             print("---Game Over---")
             print("---------------")
         if third_decision_b == 'water':
             print("You give the dog water and it lets you pass by.")
-
+            print(
+                "You wonder where you are but then you hear from a speaker 'You are trapped in a building in the middle of the woods'.")
+            fourth_decision_b = input(
+                "You continue wishing for water, you find some but it's behind a trap. Getting it will seriously hurt but you need it to survive. Do you try to [grab] it or [die].")
+            if fourth_decision_b == 'water':
+                print("You grab the water but in doing so you get cut and are bleeding quickly")
+                fifth_decision_b = input(
+                    "Do you use your [shirt] and risk chance for infection or [bleed] on looking for bandages")
+                if fifth_decision_b == 'shirt':
+                    print("You risk the chance of infection and slow down the bleeding but it wont hold forever.")
+                    sixth_decision_b_1 = input("As tyou look for items")
+                if fifth_decision_b == 'bleed':
+                    print("You continue onward in search of bandages.")
+                    
+            if fourth_decision_b == 'die':
+                print("You haven't drank water and die by dehydration.")
+                print("---------------")
+                print("---Game Over---")
+                print("---------------")
 if first_decisoin == 'window':
     print("You fell and died on impact.")
     print("---------------")
     print("---Game Over---")
     print("---------------")
+
