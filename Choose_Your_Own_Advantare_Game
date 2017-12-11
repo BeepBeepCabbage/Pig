@@ -45,10 +45,26 @@ if first_decisoin == 'door':
                     "Do you use your [shirt] and risk chance for infection or [bleed] on looking for bandages")
                 if fifth_decision_b == 'shirt':
                     print("You risk the chance of infection and slow down the bleeding but it wont hold forever.")
-                    sixth_decision_b_1 = input("As tyou look for items")
+                    sixth_decision_b_1 = input("As you look for items you find some stairs. Do you go [up] or [down].")
                 if fifth_decision_b == 'bleed':
                     print("You continue onward in search of bandages.")
-                    
+                    sixth_decision_b_2 = input("As you look for items you find some stairs. Do you go [up] or [down].")
+                    if sixth_decision_b_2 == 'up':
+                        print("You fnd bandages and a gun upstairs with bullets")
+                        seventh_decision_b = input(
+                            "You go down stairs and see a bear. Do you use the [gun] or the [knife].")
+                        if seventh_decision_b == 'gun':
+                            print("You fire but it only shoots blanks. The bear charges you and get killed.")
+                            print("---------------")
+                            print("---Game Over---")
+                            print("---------------")
+                        if seventh_decision_b == 'knife':
+                            print("You cacth the bear by surprise and kill it instantly")
+                    if sixth_decision_b_2 == 'down':
+                        print("You died from blood loss.")
+                        print("---------------")
+                        print("---Game Over---")
+                        print("---------------")
             if fourth_decision_b == 'die':
                 print("You haven't drank water and die by dehydration.")
                 print("---------------")
