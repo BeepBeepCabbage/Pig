@@ -1,17 +1,24 @@
 import time
+input("Press Enter to Continue......")
+playe_inv = []
 print("-----------------------")
 print("-----Text-Based-Rpg----")
 print("-----------------------")
 print("#Please Use Correct Spelling#")
+print("#If word in [] spell that for action#")
+print("#Type actions EXACTLY AS IT IS#")
 player_name = input("What would you like to be called.")
 player_attribute_points = 25
-print("Okay", player_name, ".", "What would you like to be Archer, Magician, Swordsman, Warrior.")
+print("Okay", player_name, ".", "What would you like to be [Elves], [Magician], [Swordsman], [Warrior].")
 print("Archer : Works well with bow and  small knifes and gets a small boost to stamina.")
 print("Magician : Works best with spells and has and boost in magic.")
 print("Swordsman : Works best with any swords and has a boost to strength.")
 print("Warrior : Works best with blunt and axe weapons and has a boost to strength.")
 player_class_type = input("")
-if player_class_type == 'Archer' or player_class_type == 'archer':
+if player_class_type == 'Elves' or player_class_type == 'elves':
+    player_gold = 100
+    player_health
+    player_class_type = 'Elves'
     player_charisma = 5
     player_luck = 5
     player_stamina = 7
@@ -24,6 +31,7 @@ if player_class_type == 'Archer' or player_class_type == 'archer':
     print("Magic :", player_magic)
     print("Luck :", player_luck)
 if player_class_type == 'Magician' or player_class_type == 'magician':
+    player_class_type = 'Magician'
     player_charisma = 5
     player_luck = 5
     player_stamina = 5
@@ -36,6 +44,7 @@ if player_class_type == 'Magician' or player_class_type == 'magician':
     print("Magic :", player_magic)
     print("Luck :", player_luck)
 if player_class_type == 'Swordsman' or player_class_type == 'swordsman':
+    player_class_type = "Swordsman"
     player_charisma = 5
     player_luck = 5
     player_stamina = 5
@@ -48,6 +57,7 @@ if player_class_type == 'Swordsman' or player_class_type == 'swordsman':
     print("Magic :", player_magic)
     print("Luck :", player_luck)
 if player_class_type == 'Warrior' or player_class_type == 'warrior':
+    player_class_type = 'Warrior'
     player_charisma = 5
     player_luck = 5
     player_stamina = 5
@@ -59,5 +69,32 @@ if player_class_type == 'Warrior' or player_class_type == 'warrior':
     print("Strength :", player_strength)
     print("Magic :", player_magic)
     print("Luck :", player_luck)
-time.sleep(2)
+time.sleep(1)
 print("Where would you like to go to.")
+print("The Kingdom of The [Elves]")
+time.sleep(0.5)
+print("The Kingdom of The [Warriors]")
+time.sleep(0.5)
+print("The [Badlands]")
+time.sleep(0.5)
+print("The Kingdom of The [Trolls]")
+player_loc = input(" ")
+if player_loc == 'Elves' or player_loc == 'elves':
+    if player_class_type == "Elves":
+        print("Welcome brother what do you wish to do?")
+        print("Come in to [barter] with merchants.")
+    if player_class_type != "Elves":
+        print("You are not welcome here go away.")
+if player_loc == 'Trolls' or player_loc == 'trolls':
+    trolls_actions = input("Troll Guard : [Leave] now or [Die].")
+    if trolls_actions == 'Leave':
+        print("Where would you like to go to.")
+        player_loc = input("")
+    if trolls_actions == 'Die':
+        print("You fought and died.")
+        print("---------------")
+        print("---Game-Over---")
+        print("---------------")
+# if player_loc == 'Warriors' or player_loc == 'warriors':
+#
+# if player_loc == 'Badlands' or player_loc == 'badlands':
