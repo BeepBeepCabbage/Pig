@@ -1,4 +1,5 @@
 import time
+
 input("Press Enter to Continue......")
 playe_inv = []
 print("-----------------------")
@@ -17,7 +18,6 @@ print("Warrior : Works best with blunt and axe weapons and has a boost to streng
 player_class_type = input("")
 if player_class_type == 'Elves' or player_class_type == 'elves':
     player_gold = 100
-    player_health
     player_class_type = 'Elves'
     player_charisma = 5
     player_luck = 5
@@ -69,7 +69,6 @@ if player_class_type == 'Warrior' or player_class_type == 'warrior':
     print("Strength :", player_strength)
     print("Magic :", player_magic)
     print("Luck :", player_luck)
-time.sleep(1)
 print("Where would you like to go to.")
 print("The Kingdom of The [Elves]")
 time.sleep(0.5)
@@ -79,22 +78,55 @@ print("The [Badlands]")
 time.sleep(0.5)
 print("The Kingdom of The [Trolls]")
 player_loc = input(" ")
-if player_loc == 'Elves' or player_loc == 'elves':
-    if player_class_type == "Elves":
-        print("Welcome brother what do you wish to do?")
-        print("Come in to [barter] with merchants.")
-    if player_class_type != "Elves":
-        print("You are not welcome here go away.")
-if player_loc == 'Trolls' or player_loc == 'trolls':
-    trolls_actions = input("Troll Guard : [Leave] now or [Die].")
-    if trolls_actions == 'Leave':
-        print("Where would you like to go to.")
-        player_loc = input("")
-    if trolls_actions == 'Die':
-        print("You fought and died.")
-        print("---------------")
-        print("---Game-Over---")
-        print("---------------")
-# if player_loc == 'Warriors' or player_loc == 'warriors':
-#
-# if player_loc == 'Badlands' or player_loc == 'badlands':
+while True:
+    if player_loc == 'Elves' or player_loc == 'elves':
+        if player_class_type == "Elves":
+            print("Elven Guard : Welcome brother what do you wish to do?")
+            print("Come in to [barter] with merchants.")
+        if player_class_type != "Elves":
+            print("Elven Guard : Go away only elves or people with a message to the king are allowed in.")
+            print("Where would you like to go to.")
+            print("The Kingdom of The [Warriors]")
+            time.sleep(0.5)
+            print("The [Badlands]")
+            time.sleep(0.5)
+            print("The Kingdom of The [Trolls]")
+            player_loc = input(" ")
+            print("Elven Guard : You are not welcome here go away.")
+    if player_loc == 'Trolls' or player_loc == 'trolls':
+        trolls_actions = input("Troll Guard : [Leave] now or [Die].")
+        if trolls_actions == 'Leave':
+            print("Where would you like to go to.")
+            print("The Kingdom of The [Elves]")
+            time.sleep(0.5)
+            print("The Kingdom of The [Warriors]")
+            time.sleep(0.5)
+            print("The [Badlands]")
+            time.sleep(0.5)
+            player_loc = input("")
+        if trolls_actions == 'Die':
+            print("You fought and died.")
+            print("---------------")
+            print("---Game-Over---")
+            print("---------------")
+            break
+    if player_loc == 'Warriors' or player_loc == 'warriors':
+        print("Warrior Guard : What do you wish to do.")
+        print("Enter to [Explore].")
+        print("[Trade] with merchants.")
+        print("[Leave] to another place.")
+        warrior_actions = input("")
+    if player_loc == 'Badlands' or player_loc == 'badlands':
+        print("The badlands are filled with enemies they might have stuff")
+        print("Do you wish to find [enemies] or [travel] someplace else.")
+        badlands_actions = input(" ")
+        if badlands_actions == 'travel':
+            print("Where would you like to go to.")
+            print("The Kingdom of The [Elves]")
+            time.sleep(0.5)
+            print("The Kingdom of The [Warriors]")
+            time.sleep(0.5)
+            print("The Kingdom of The [Trolls]")
+            player_loc = input(" ")
+        if badlands_actions == 'enemies':
+            print("Bep")
