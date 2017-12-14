@@ -1,5 +1,7 @@
 import time
-
+import random
+player_action_percent = 100
+x = 100
 input("Press Enter to Continue......")
 playe_inv = []
 print("-----------------------")
@@ -9,10 +11,8 @@ print("#Please Use Correct Spelling#")
 print("#If word in [] spell that for action#")
 print("#Type actions EXACTLY AS IT IS#")
 player_name = input("What would you like to be called.")
-player_attribute_points = 25
-print("Okay", player_name, ".", "What would you like to be [Elves], [Magician], [Swordsman], [Warrior].")
-print("Archer : Works well with bow and  small knifes and gets a small boost to stamina.")
-print("Magician : Works best with spells and has and boost in magic.")
+print("Okay", player_name, ".", "What would you like to be [Elf], [Swordsman], [Warrior].")
+print("Elf : Works well with bow and  small knifes and gets a small boost to stamina.")
 print("Swordsman : Works best with any swords and has a boost to strength.")
 print("Warrior : Works best with blunt and axe weapons and has a boost to strength.")
 player_class_type = input("")
@@ -22,53 +22,41 @@ if player_class_type == 'Elves' or player_class_type == 'elves':
     player_charisma = 5
     player_luck = 5
     player_stamina = 7
-    player_magic = 5
+    player_intelligence = 5
     player_strength = 5
     print("Your skill point are")
     print("Charisma :", player_charisma)
     print("Stamina :", player_stamina)
     print("Strength :", player_strength)
-    print("Magic :", player_magic)
-    print("Luck :", player_luck)
-if player_class_type == 'Magician' or player_class_type == 'magician':
-    player_class_type = 'Magician'
-    player_charisma = 5
-    player_luck = 5
-    player_stamina = 5
-    player_magic = 7
-    player_strength = 5
-    print("Your skill point are")
-    print("Charisma :", player_charisma)
-    print("Stamina :", player_stamina)
-    print("Strength :", player_strength)
-    print("Magic :", player_magic)
+    print("Magic :", player_intelligence)
     print("Luck :", player_luck)
 if player_class_type == 'Swordsman' or player_class_type == 'swordsman':
     player_class_type = "Swordsman"
     player_charisma = 5
     player_luck = 5
     player_stamina = 5
-    player_magic = 5
+    player_intelligence = 5
     player_strength = 7
     print("Your skill point are")
     print("Charisma :", player_charisma)
     print("Stamina :", player_stamina)
     print("Strength :", player_strength)
-    print("Magic :", player_magic)
+    print("Magic :", player_intelligence)
     print("Luck :", player_luck)
 if player_class_type == 'Warrior' or player_class_type == 'warrior':
     player_class_type = 'Warrior'
     player_charisma = 5
     player_luck = 5
     player_stamina = 5
-    player_magic = 5
+    player_intelligence = 5
     player_strength = 7
     print("Your skill point are")
     print("Charisma :", player_charisma)
     print("Stamina :", player_stamina)
     print("Strength :", player_strength)
-    print("Magic :", player_magic)
+    print("Magic :", player_intelligence)
     print("Luck :", player_luck)
+print("")
 print("Where would you like to go to.")
 print("The Kingdom of The [Elves]")
 time.sleep(0.5)
@@ -96,6 +84,7 @@ while True:
     if player_loc == 'Trolls' or player_loc == 'trolls':
         trolls_actions = input("Troll Guard : [Leave] now or [Die].")
         if trolls_actions == 'Leave':
+            print("Troll Guard : You are smart for leaving.")
             print("Where would you like to go to.")
             print("The Kingdom of The [Elves]")
             time.sleep(0.5)
@@ -129,4 +118,18 @@ while True:
             print("The Kingdom of The [Trolls]")
             player_loc = input(" ")
         if badlands_actions == 'enemies':
-            print("Bep")
+            print("You look for enemies and find one.")
+            enemy_chooser = int(x * random.random()) + 1
+            if enemy_chooser < 40:
+                print("You found a wolf.")
+                wolf_hp = 20
+                wolf_base_attack = 5
+                wolf_special_attack = 10
+                wolf_defence = 5
+                wolf_stamina = 6
+                player_attack = input("Would you like to try to [run], [attack], or [power] attack")
+                # if
+                # if enemy_chooser < 40:
+                # if enemy_chooser < 2:
+                # if enemy_chooser < 10:
+                # if enemy_chooser < 8:
