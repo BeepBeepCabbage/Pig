@@ -1,84 +1,101 @@
-    # --- Event Processing
+   # --- Event Processing
+import pygame
+import sys
+
+b_scr_num_2 = 0
+r_scr_num_2 = 0
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 153)
+YELLOW = (255, 255, 0)
+
+size = [700, 500]
+# Move the rectangle starting point
+rect_x = 350
+rect_y = 250
+
+# Speed and direction of rectangle
+rect_change_x = 2
+rect_change_y = 2
+done = False
+
+r_rect_x = 660
+r_rect_y = 250
+
+b_rect_x = 40
+b_rect_y = 250
+
+clock = pygame.time.Clock()
+pygame.init()
+
+screen = pygame.display.set_mode(size)
+while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        # --- Logic
+        rect_x += rect_change_x
+        rect_y += rect_change_y
+        r_rect_y = rect_y - 40
+        b_rect_y = rect_y - 40
 
-    # --- Logic
-    # Move the rectangle starting point
-    rect_x += rect_change_x
-    rect_y += rect_change_y
-    # o_rect_x = rect_x - 40
-    # g_rect_x = rect_x - 40
+        if rect_y > 474 or rect_y < 15:
+            rect_change_y = rect_change_y * -1
+        if rect_x > 679:
+            rect_change_x = rect_change_x * -1
+        if rect_x < 20:
+            rect_change_x = rect_change_x * -1
+            # b_scr_num_2 = b_scr_num_2 + 1
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_UP:
+        #         b_rect_y = b_rect_y + -2
+        #     if event.key == pygame.K_DOWN:
+        #         b_rect_y = b_rect_y + 2
 
-    # r_rect_y = rect_y - 40
-    b_rect_y = rect_y - 40
-    # Bounce the ball if needed
-    if rect_y > 479 or rect_y < 10:
-        rect_change_y = rect_change_y * -1
-    if rect_x > 679:
-        rect_change_x = rect_change_x * -1
-    if rect_x < 20:
-        rect_change_x = rect_change_x * -1
-        b_scr_num_2 = b_scr_num_2 + 1
-    if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_UP:
-            b_rect_y = b_rect_y + -2
-        if event.key == pygame.K_DOWN:
-            b_rect_y = b_rect_y + 2
+        # --- Drawing
+        # Set the screen background
+        screen.fill(BLACK)
+        # basicfont = pygame.font.SysFont(None, 28)
+        # b_Score = basicfont.render('Blue Score!', True, BLUE, (0, 0, 0))
+        # b_scr_num = basicfont.render(str(b_scr_num_2), True, BLUE, (0, 0, 0))
+        # textrect = b_Score.get_rect()
+        # b_textrect_num = b_scr_num.get_rect()
+        # b_textrect_num.centerx = 850
+        # b_textrect_num.centery = 75
+        # textrect.centerx = 850
+        # textrect.centery = 50
+        # r_Score = basicfont.render('Red Score!', True, RED, (0, 0, 0))
+        # r_scr_num = basicfont.render(str(r_scr_num_2), True, RED, (0, 0, 0))
+        # textrect = r_Score.get_rect()
+        # r_textrect_num = r_scr_num.get_rect()
+        # r_textrect_num.centerx = 850
+        # r_textrect_num.centery = 75
+        # textrect.centerx = 850
+        # textrect.centery = 50
+        #
+        # screen.blit(b_Score, textrect)
+        #
+        # screen.blit(b_scr_num, b_textrect_num)
+        # screen.blit(r_Score, textrect)
+        # screen.blit(r_scr_num, r_textrect_num)
+        # Draw the rectangle
+        Ball = pygame.draw.circle(screen, YELLOW, [rect_x, rect_y], 20)
+        R_Paddle = pygame.draw.rect(screen, RED, [r_rect_x, r_rect_y, 20, 80])
+        B_Paddle = pygame.draw.rect(screen, BLUE, [b_rect_x, b_rect_y, 20, 80])
+        # --- Wrap-up
+        if Ball.colliderect(R_Paddle):
+            rect_change_x = rect_change_x * -1
 
-    # --- Drawing
-    # Set the screen background
-    screen.fill(BLACK)
-    basicfont = pygame.font.SysFont(None, 28)
-    b_Score = basicfont.render('Blue Score!', True, BLUE, (0, 0, 0))
-    b_scr_num = basicfont.render(str(b_scr_num_2), True, BLUE, (0, 0, 0))
-    textrect = b_Score.get_rect()
-    b_textrect_num = b_scr_num.get_rect()
-    b_textrect_num.centerx = 850
-    b_textrect_num.centery = 75
-    textrect.centerx = 850
-    textrect.centery = 50
-    r_Score = basicfont.render('Red Score!', True, RED, (0, 0, 0))
-    r_scr_num = basicfont.render(str(r_scr_num_2), True, RED, (0, 0, 0))
-    textrect = r_Score.get_rect()
-    r_textrect_num = r_scr_num.get_rect()
-    r_textrect_num.centerx = 850
-    r_textrect_num.centery = 75
-    textrect.centerx = 850
-    textrect.centery = 50
+        if Ball.colliderect(B_Paddle):
+            rect_change_x = rect_change_x * -1
 
-    screen.blit(b_Score, textrect)
+        # Limit to 60 frames per second
+        clock.tick(60)
 
-    screen.blit(b_scr_num, b_textrect_num)
-    screen.blit(r_Score, textrect)
-    screen.blit(r_scr_num, r_textrect_num)
-    # Draw the rectangle
-    Ball = pygame.draw.circle(screen, YELLOW, [rect_x, rect_y], 20)
-    R_Paddle = pygame.draw.rect(screen, RED, [r_rect_x, r_rect_y, 20, 80])
-    B_Paddle = pygame.draw.rect(screen, BLUE, [b_rect_x, b_rect_y, 20, 80])
-    # G_Paddle = pygame.draw.rect(screen, GREEN, [g_rect_x, g_rect_y, 80, 20])
-    # O_Paddle = pygame.draw.rect(screen, ORANGE, [o_rect_x, o_rect_y, 80, 20])
-    # --- Wrap-up
-    if pygame.Rect.colliderect(Ball, R_Paddle) == True:
-        rect_change_x = rect_change_x * -1
-        winsound.Beep(604, 60)
-
-    if pygame.Rect.colliderect(Ball, B_Paddle) == True:
-        rect_change_x = rect_change_x * -1
-        winsound.Beep(604, 60)
-
-    # if pygame.Rect.colliderect(Ball, O_Paddle) == True:
-    #     rect_change_y = rect_change_y * -1
-    #     winsound.Beep(604, 60)
-    #
-    # if pygame.Rect.colliderect(Ball, G_Paddle) == True:
-    #     rect_change_y = rect_change_y * -1
-    #     winsound.Beep(604, 60)
-
-    # Limit to 60 frames per second
-    clock.tick(80)
-
-    # Go ahead and update the screen with what we've drawn.
-    pygame.display.flip()
+        # Go ahead and update the screen with what we've drawn.
+        pygame.display.flip()
 
 pygame.quit()
+
