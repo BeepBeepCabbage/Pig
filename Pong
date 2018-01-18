@@ -21,44 +21,59 @@ rect_change_x = 2
 rect_change_y = 2
 done = False
 
-r_ai = 40
 r_rect_x = 660
 r_rect_y = 250
 
 b_rect_x = 20
 b_rect_y = 250
 
+r_ai = 40
+
 clock = pygame.time.Clock()
 pygame.init()
 pygame.mixer.init()
+
 pygame.display.set_caption('Pong')
-B_font = pygame.font.SysFont(None, 38)
-B_text = B_font.render('Blue Score!', True, BLUE, BLACK)
-R_font = pygame.font.SysFont(None, 38)
-R_text = R_font.render('Red Score!', True, RED, BLACK)
+# backround = pygame.image.load("pong_3.png")
 screen = pygame.display.set_mode(size)
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
             # --- Logic
+    B_font = pygame.font.SysFont(None, 38)
+    B_text = B_font.render('Blue Score!', True, BLUE, BLACK)
+    B_scr = B_font.render(str(b_scr_num_2), 1, BLUE)
+    R_font = pygame.font.SysFont(None, 38)
+    R_text = R_font.render('Red Score!', True, RED, BLACK)
+    R_scr = R_font.render(str(r_scr_num_2), 1, RED)
     rect_x += rect_change_x
     rect_y += rect_change_y
     r_rect_y = rect_y - r_ai
-    # b_rect_y = rect_y - 40
     if rect_y > 474 or rect_y < 15:
         rect_change_y = rect_change_y * -1
     if b_rect_y <= 0 and pygame.KEYDOWN:
         b_rect_y = 1
     if b_rect_y > 418 and pygame.KEYDOWN:
         b_rect_y = 418
+    if r_rect_y <= 0:
+        r_rect_y = 1
+    if r_rect_y > 417:
+        r_rect_y = 418
     if rect_x > 679:
         rect_change_x = rect_change_x * -1
         b_scr_num_2 = b_scr_num_2 + 1
+        rect_x = 350
+        rect_y = 250
+        r_rect_y = rect_y
+        r_ai = 40
     if rect_x < 20:
         rect_change_x = rect_change_x * -1
         r_scr_num_2 = r_scr_num_2 + 1
-        # b_scr_num_2 = b_scr_num_2 + 1
+        rect_x = 350
+        rect_y = 250
+        r_rect_y = rect_y
+        r_ai = 40
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_UP:
             b_rect_y = b_rect_y + - 3
@@ -74,21 +89,31 @@ while not done:
     # --- Wrap-up
     if Ball.colliderect(R_Paddle):
         rect_change_x = rect_change_x * -1
-        r_ai = r_ai - 5
     if Ball.colliderect(B_Paddle):
         rect_change_x = rect_change_x * -1
-    # Limit to 60 frames per second
-    textrect = B_text.get_rect()
-    textrect.centerx = 850
-    textrect.centery = 50
+        r_ai = r_ai - 15
+    b_textrect = B_text.get_rect()
+    b_textrect.centerx = 850
+    b_textrect.centery = 50
+    b_textrect_num = B_scr.get_rect()
+    b_textrect_num.centerx = 850
+    b_textrect_num.centery = 100
+
     r_textrect = R_text.get_rect()
     r_textrect.centerx = 850
     r_textrect.centery = 250
+    r_textrect_num = R_scr.get_rect()
+    r_textrect_num.centerx = 850
+    r_textrect_num.centery = 300
 
-    screen.blit(B_text, textrect)
+    screen.blit(B_text, b_textrect)
+    screen.blit(B_scr, b_textrect_num)
     screen.blit(R_text, r_textrect)
+    screen.blit(R_scr, r_textrect_num)
     clock.tick(60)
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
+
+pygame.quit()
 
 pygame.quit()
