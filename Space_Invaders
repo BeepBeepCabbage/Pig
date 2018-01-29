@@ -15,62 +15,55 @@ import random
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+BLUE = (0, 0, 255)
 
 
-class Block(pygame.sprite.Sprite):
-    """
-    This class represents the ball.
-    It derives from the "Sprite" class in Pygame.
-    """
-
+class Player(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
-        """ Constructor. Pass in the color of the block,
-        and its x and y position. """
-
         # Call the parent class (Sprite) constructor
-        super().__init__()
+        pygame.sprite.Sprite.__init__(self)
 
-        # Create an image of the block, and fill it with a color.
-        # This could also be an image loaded from the disk.
         self.image = pygame.Surface([width, height])
         self.image.fill(color)
 
-        # Fetch the rectangle object that has the dimensions of the image
-        # image.
-        # Update the position of this object by setting the values
-        # of rect.x and rect.y
         self.rect = self.image.get_rect()
 
 
-class Enemy(pygame.sprite.Sprite):
-    """
-    This class represents the ball.
-    It derives from the "Sprite" class in Pygame.
-    """
+class Mob(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((30, 40))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randrange(screen_width - self.rect.width)
+        self.rect.y = random.randrange(-100, -40)
+        self.speedy = random.randrange(1, 8)
+        self.speedx = random.randrange(-3, 3)
 
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+        if self.rect.top > screen_height + 10 or self.rect.left < -25 or self.rect.right > screen_width + 20:
+            self.rect.x = random.randrange(screen_width - self.rect.width)
+            self.rect.y = random.randrange(-100, -40)
+            self.speedy = random.randrange(1, 8)
+
+
+class Laser(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
-        """ Constructor. Pass in the color of the block,
-        and its x and y position. """
-
         # Call the parent class (Sprite) constructor
-        super().__init__()
+        pygame.sprite.Sprite.__init__(self)
 
-        # Create an image of the block, and fill it with a color.
-        # This could also be an image loaded from the disk.
         self.image = pygame.Surface([width, height])
         self.image.fill(color)
 
-        # Fetch the rectangle object that has the dimensions of the image
-        # image.
-        # Update the position of this object by setting the values
-        # of rect.x and rect.y
         self.rect = self.image.get_rect()
 
     def update(self):
-        self.rect.y -= 4
-        if self.rect.x == 0 
+        self.rect.y = self.rect.y - 10
+        # if self.rect.bottom > screen_height + 15 or self.rect.left < -25 or self.rect.right > screen_width + 20:
 
-# Initialize Pygame
+
 pygame.init()
 
 # Set the height and width of the screen
@@ -78,63 +71,52 @@ screen_width = 400
 screen_height = 700
 screen = pygame.display.set_mode([screen_width, screen_height])
 
-# This is a list of 'sprites.' Each block in the program is
-# added to this list. The list is managed by a class called 'Group.'
-block_list = pygame.sprite.Group()
-
-# This is a list of every sprite.
-# All blocks and the player block as well.
 all_sprites_list = pygame.sprite.Group()
 
 # Create a RED player block
-player = Block(RED, 20, 15)
-all_sprites_list.add(player)
 
 # Loop until the user clicks the close button.
 done = False
-
-player.rect.x = 200
-player.rect.y = 650
+mobs = pygame.sprite.Group()
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
+for i in range(8):
+    m = Mob()
+    all_sprites_list.add(m)
+    mobs.add(m)
 
-score = 0
-
-enemy_1 = Enemy(WHITE, 20, 15)
-enemy_1.rect.x = random.randrange(0, 200)
-enemy_1.rect.y = 100
-all_sprites_list.add(enemy_1)
+spaceship = Player(WHITE, 20, 15)
+player = pygame.sprite.Group()
+player.add(spaceship)
+all_sprites_list.add(spaceship)
+spaceship.rect.y = 650
+spaceship.rect.x = 200
 # -------- Main Program Loop -----------
+
+
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-
-    # Clear the screen
-
-    # Get the current mouse position. This returns the position
-    # as a list of two numbers.
-
-
-    # Fetch the x and y out of the list,
-
-    # Set the player object to the mouse location
-
-
-    # See if the player block has collided with anything.
     if event.type == pygame.KEYDOWN:
-        if player.rect.x <= 0 and pygame.KEYDOWN:
-            player.rect.x = 1
-        if player.rect.x >= 375 and pygame.KEYDOWN:
-            player.rect.x = 374
+        if spaceship.rect.x <= 0 and pygame.KEYDOWN:
+            spaceship.rect.x = 1
+        if spaceship.rect.x >= 375 and pygame.KEYDOWN:
+            spaceship.rect.x = 374
         if event.key == pygame.K_LEFT:
-            player.rect.x = player.rect.x - 5
+            spaceship.rect.x = spaceship.rect.x - 5
         if event.key == pygame.K_RIGHT:
-            player.rect.x = player.rect.x + 5
-
-    # Draw all the spites
+            spaceship.rect.x = spaceship.rect.x + 5
+        if event.key == pygame.K_SPACE:
+            laser = Laser(BLUE, 10, 20)
+            laser.rect.y = spaceship.rect.y - 10
+            laser.rect.x = spaceship.rect.x
+            all_sprites_list.add(laser)
     screen.fill(BLACK)
+
+    all_sprites_list.update()
+    # Draw all the spites
     all_sprites_list.draw(screen)
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
