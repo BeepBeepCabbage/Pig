@@ -28,6 +28,25 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
+    def update(self):
+        self.speedx = 0
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_RIGHT]:
+            self.speedx = 8
+        if keystate[pygame.K_SPACE]:
+            laser = Laser(BLUE, 10, 20)
+            laser.rect.y = spaceship.rect.y - 20
+            laser.rect.x = spaceship.rect.x + 5
+            all_sprites_list.add(laser)
+            lasers.add(laser)
+        if keystate[pygame.K_LEFT]:
+            self.speedx = -8
+        self.rect.x += self.speedx
+        if self.rect.right > screen_width:
+            self.rect.right = screen_width
+        if self.rect.left < 0:
+            self.rect.left = 0
+
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
@@ -61,7 +80,8 @@ class Laser(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y = self.rect.y - 10
-        # if self.rect.bottom > screen_height + 15 or self.rect.left < -25 or self.rect.right > screen_width + 20:
+        if self.rect.bottom > screen_height:
+            self.kill()
 
 
 pygame.init()
@@ -77,14 +97,20 @@ all_sprites_list = pygame.sprite.Group()
 
 # Loop until the user clicks the close button.
 done = False
-mobs = pygame.sprite.Group()
+total_m = 8
 
-# Used to manage how fast the screen updates
+# laser = Laser()
+# all_sprites_list.add(laser)
+
+lasers = pygame.sprite.Group()
+
 clock = pygame.time.Clock()
+mobs = pygame.sprite.Group()
 for i in range(8):
     m = Mob()
     all_sprites_list.add(m)
     mobs.add(m)
+    total_m = 8
 
 spaceship = Player(WHITE, 20, 15)
 player = pygame.sprite.Group()
@@ -99,21 +125,17 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    if event.type == pygame.KEYDOWN:
-        if spaceship.rect.x <= 0 and pygame.KEYDOWN:
-            spaceship.rect.x = 1
-        if spaceship.rect.x >= 375 and pygame.KEYDOWN:
-            spaceship.rect.x = 374
-        if event.key == pygame.K_LEFT:
-            spaceship.rect.x = spaceship.rect.x - 5
-        if event.key == pygame.K_RIGHT:
-            spaceship.rect.x = spaceship.rect.x + 5
-        if event.key == pygame.K_SPACE:
-            laser = Laser(BLUE, 10, 20)
-            laser.rect.y = spaceship.rect.y - 10
-            laser.rect.x = spaceship.rect.x
-            all_sprites_list.add(laser)
     screen.fill(BLACK)
+    if pygame.sprite.groupcollide(lasers, mobs, True, True):
+        m = Mob()
+        mobs.add(m)
+        all_sprites_list.add(m)
+        total_m = total_m + 1
+    if total_m < 8:
+        m = Mob()
+        mobs.add(m)
+        all_sprites_list.add(m)
+        total_m = total_m - 1
 
     all_sprites_list.update()
     # Draw all the spites
