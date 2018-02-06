@@ -11,6 +11,7 @@ Explanation video: http://youtu.be/4W2AqUetBi4
 import pygame
 import random
 
+# total_mobs = 10
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -54,18 +55,20 @@ class Mob(pygame.sprite.Sprite):
         self.image = pygame.Surface((30, 40))
         self.image.fill(RED)
         self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(screen_width - self.rect.width)
-        self.rect.y = random.randrange(-100, -40)
-        self.speedy = random.randrange(1, 8)
+        self.rect.x = random.randrange(40, 360)
+        self.rect.y = random.randrange(-50, -40)
+        self.speedy = random.randrange(3, 8)
         self.speedx = random.randrange(-3, 3)
 
     def update(self):
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-        if self.rect.top > screen_height + 10 or self.rect.left < -25 or self.rect.right > screen_width + 20:
+        if self.rect.top > screen_height + 10:
             self.rect.x = random.randrange(screen_width - self.rect.width)
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange(1, 8)
+        if self.rect.x < 0 or self.rect.right > screen_width:
+            self.speedx = self.speedx * -1
 
 
 class Laser(pygame.sprite.Sprite):
@@ -93,25 +96,17 @@ screen = pygame.display.set_mode([screen_width, screen_height])
 
 all_sprites_list = pygame.sprite.Group()
 
-# Create a RED player block
-
-# Loop until the user clicks the close button.
 done = False
-total_m = 8
-
-# laser = Laser()
-# all_sprites_list.add(laser)
 
 lasers = pygame.sprite.Group()
+total_mobs = 10
 
 clock = pygame.time.Clock()
 mobs = pygame.sprite.Group()
-for i in range(8):
+for i in range(10):
     m = Mob()
     all_sprites_list.add(m)
     mobs.add(m)
-    total_m = 8
-
 spaceship = Player(WHITE, 20, 15)
 player = pygame.sprite.Group()
 player.add(spaceship)
@@ -126,24 +121,25 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
     screen.fill(BLACK)
+
     if pygame.sprite.groupcollide(lasers, mobs, True, True):
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
-        total_m = total_m + 1
-    if total_m < 8:
+    if total_mobs < 10:
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
-        total_m = total_m - 1
-
     all_sprites_list.update()
     # Draw all the spites
     all_sprites_list.draw(screen)
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
-
+    if pygame.sprite.groupcollide(player, mobs, True, True):
+        
     # Limit to 60 frames per second
+    pygame.display.set_caption('Space Invaders')
+
     clock.tick(60)
 
 pygame.quit()
