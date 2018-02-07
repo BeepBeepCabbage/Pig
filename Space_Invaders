@@ -17,6 +17,9 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+pygame.font.init()
+basicfont = pygame.font.SysFont('Comic Sans MS', 48)
+text = basicfont.render('GAME OVER!', True, RED, BLACK)
 
 
 class Player(pygame.sprite.Sprite):
@@ -113,6 +116,10 @@ player.add(spaceship)
 all_sprites_list.add(spaceship)
 spaceship.rect.y = 650
 spaceship.rect.x = 200
+
+textrect = text.get_rect()
+textrect.centerx = screen.get_rect().centerx
+textrect.centery = screen.get_rect().centery
 # -------- Main Program Loop -----------
 
 
@@ -122,11 +129,9 @@ while not done:
             done = True
     screen.fill(BLACK)
 
-    if pygame.sprite.groupcollide(lasers, mobs, True, True):
-        m = Mob()
-        mobs.add(m)
-        all_sprites_list.add(m)
-    if total_mobs < 10:
+    hits = pygame.sprite.groupcollide(lasers, mobs, True, True)
+
+    for hit in hits:
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
@@ -136,8 +141,7 @@ while not done:
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
     if pygame.sprite.groupcollide(player, mobs, True, True):
-        
-    # Limit to 60 frames per second
+        done = True
     pygame.display.set_caption('Space Invaders')
 
     clock.tick(60)
