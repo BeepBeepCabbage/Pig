@@ -8,35 +8,52 @@ http://simpson.edu/computer-science/
 
 Explanation video: http://youtu.be/4W2AqUetBi4
 """
-import pygame
 import random
+from os import path
+import pygame
+import sched
+import time
 
+screen_width = 400
+screen_height = 700
+screen = pygame.display.set_mode([screen_width, screen_height])
 # total_mobs = 10
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
-pygame.font.init()
-basicfont = pygame.font.SysFont('Comic Sans MS', 48)
-text = basicfont.render('GAME OVER!', True, RED, BLACK)
+pygame.display.init()
+
+img_dir = path.join(path.dirname(__file__), 'H:\\Images')
+
+meteor_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
+spaceship_img = pygame.image.load(path.join(img_dir, "playerShip1_orange.png")).convert()
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
-        # Call the parent class (Sprite) constructor
-        pygame.sprite.Sprite.__init__(self)
-
         self.image = pygame.Surface([width, height])
+        pygame.sprite.Sprite.__init__(self)
+        # self.image = spaceship_img
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
         self.image.fill(color)
 
         self.rect = self.image.get_rect()
 
-    def update(self):
         self.speedx = 0
+        self.speedy = 0
+
+    def update(self):
+
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_RIGHT]:
             self.speedx = 8
+        if keystate[pygame.K_DOWN]:
+            self.speedy = 8
+        if keystate[pygame.K_UP]:
+            self.speedy = -8
         if keystate[pygame.K_SPACE]:
             laser = Laser(BLUE, 10, 20)
             laser.rect.y = spaceship.rect.y - 20
@@ -45,18 +62,23 @@ class Player(pygame.sprite.Sprite):
             lasers.add(laser)
         if keystate[pygame.K_LEFT]:
             self.speedx = -8
-        self.rect.x += self.speedx
         if self.rect.right > screen_width:
             self.rect.right = screen_width
         if self.rect.left < 0:
             self.rect.left = 0
+        if self.rect.top < 0:
+            self.rect.top = screen_height
+        if self.rect.bottom > screen_height:
+            self.rect.top = 0
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
 
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30, 40))
-        self.image.fill(RED)
+        self.image = meteor_img
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(40, 360)
         self.rect.y = random.randrange(-50, -40)
@@ -93,33 +115,26 @@ class Laser(pygame.sprite.Sprite):
 pygame.init()
 
 # Set the height and width of the screen
-screen_width = 400
-screen_height = 700
-screen = pygame.display.set_mode([screen_width, screen_height])
+
 
 all_sprites_list = pygame.sprite.Group()
 
 done = False
 
 lasers = pygame.sprite.Group()
-total_mobs = 10
 
 clock = pygame.time.Clock()
 mobs = pygame.sprite.Group()
-for i in range(10):
-    m = Mob()
-    all_sprites_list.add(m)
-    mobs.add(m)
+# for i in range(10):
+#     m = Mob()
+#     all_sprites_list.add(m)
+#     mobs.add(m)
 spaceship = Player(WHITE, 20, 15)
 player = pygame.sprite.Group()
 player.add(spaceship)
 all_sprites_list.add(spaceship)
 spaceship.rect.y = 650
 spaceship.rect.x = 200
-
-textrect = text.get_rect()
-textrect.centerx = screen.get_rect().centerx
-textrect.centery = screen.get_rect().centery
 # -------- Main Program Loop -----------
 
 
@@ -128,22 +143,16 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
     screen.fill(BLACK)
-
     hits = pygame.sprite.groupcollide(lasers, mobs, True, True)
-
     for hit in hits:
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
     all_sprites_list.update()
-    # Draw all the spites
     all_sprites_list.draw(screen)
-    # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
     if pygame.sprite.groupcollide(player, mobs, True, True):
         done = True
     pygame.display.set_caption('Space Invaders')
-
     clock.tick(60)
-
 pygame.quit()
