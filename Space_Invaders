@@ -35,13 +35,10 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
         self.image = pygame.Surface([width, height])
         pygame.sprite.Sprite.__init__(self)
-        # self.image = spaceship_img
-        self.image.set_colorkey(BLACK)
+        self.image = spaceship_img
+        self.image = pygame.transform.scale(self.image, (50, 40))
+        self.image.set_colorkey(WHITE)
         self.rect = self.image.get_rect()
-        self.image.fill(color)
-
-        self.rect = self.image.get_rect()
-
         self.speedx = 0
         self.speedy = 0
 
@@ -50,18 +47,22 @@ class Player(pygame.sprite.Sprite):
         keystate = pygame.key.get_pressed()
         if keystate[pygame.K_RIGHT]:
             self.speedx = 8
+            self.rect.x += self.speedx
         if keystate[pygame.K_DOWN]:
             self.speedy = 8
+            self.rect.y += self.speedy
         if keystate[pygame.K_UP]:
             self.speedy = -8
+            self.rect.y += self.speedy
         if keystate[pygame.K_SPACE]:
             laser = Laser(BLUE, 10, 20)
-            laser.rect.y = spaceship.rect.y - 20
-            laser.rect.x = spaceship.rect.x + 5
+            laser.rect.y = spaceship.rect.y - 25
+            laser.rect.x = spaceship.rect.x + 20
             all_sprites_list.add(laser)
             lasers.add(laser)
         if keystate[pygame.K_LEFT]:
             self.speedx = -8
+            self.rect.x += self.speedx
         if self.rect.right > screen_width:
             self.rect.right = screen_width
         if self.rect.left < 0:
@@ -69,9 +70,7 @@ class Player(pygame.sprite.Sprite):
         if self.rect.top < 0:
             self.rect.top = screen_height
         if self.rect.bottom > screen_height:
-            self.rect.top = 0
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
+            self.rect.bottom = screen_height
 
 
 class Mob(pygame.sprite.Sprite):
@@ -105,9 +104,10 @@ class Laser(pygame.sprite.Sprite):
         self.image.fill(color)
 
         self.rect = self.image.get_rect()
+        self.speedy = 8
 
     def update(self):
-        self.rect.y = self.rect.y - 10
+        self.rect.y = self.rect.y - self.speedy
         if self.rect.bottom > screen_height:
             self.kill()
 
@@ -120,15 +120,16 @@ pygame.init()
 all_sprites_list = pygame.sprite.Group()
 
 done = False
+pygame.display.set_caption('Space Invaders')
 
 lasers = pygame.sprite.Group()
 
 clock = pygame.time.Clock()
 mobs = pygame.sprite.Group()
-# for i in range(10):
-#     m = Mob()
-#     all_sprites_list.add(m)
-#     mobs.add(m)
+for i in range(10):
+    m = Mob()
+    all_sprites_list.add(m)
+    mobs.add(m)
 spaceship = Player(WHITE, 20, 15)
 player = pygame.sprite.Group()
 player.add(spaceship)
@@ -143,7 +144,7 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
     screen.fill(BLACK)
-    hits = pygame.sprite.groupcollide(lasers, mobs, True, True)
+    hits = pygame.sprite.groupcollide(lasers, mobs, False, pygame.sprite.collide_circle)
     for hit in hits:
         m = Mob()
         mobs.add(m)
@@ -151,8 +152,7 @@ while not done:
     all_sprites_list.update()
     all_sprites_list.draw(screen)
     pygame.display.flip()
-    if pygame.sprite.groupcollide(player, mobs, True, True):
+    if pygame.sprite.groupcollide(player, mobs, False, True):
         done = True
-    pygame.display.set_caption('Space Invaders')
     clock.tick(60)
 pygame.quit()
