@@ -9,9 +9,10 @@ http://simpson.edu/computer-science/
 Explanation video: http://youtu.be/4W2AqUetBi4
 """
 import random
-from os import path
-import pygame
 import sys
+from os import path
+
+import pygame
 
 pygame.font.init()
 
@@ -32,9 +33,13 @@ pygame.display.init()
 pygame.init()
 img_dir = path.join(path.dirname(__file__), 'H:\\Images')
 
+backround_x = 0
+backround_y = 0
+
 # meteor_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
 spaceship_img = pygame.image.load(path.join(img_dir, "playerShip1_orange.png")).convert()
-backround = pygame.image.load(path.join(img_dir, "starfield.png")).convert()
+backround = pygame.image.load(path.join(img_dir, "spacebackround.jpg")).convert()
+backround = pygame.transform.scale(backround, (400, 600))
 laser_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
 meteor_images = []
 meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
@@ -89,7 +94,7 @@ class Mob(pygame.sprite.Sprite):
         self.image_orig.set_colorkey(BLACK)
         self.image = self.image_orig.copy()
         self.rect = self.image.get_rect()
-        self.radius = int(self.rect.width * .85 / 2)
+        self.radius = int(self.rect.width * .95 / 2)
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
         self.rect.x = random.randrange(screen_width - self.rect.width)
         self.rect.y = random.randrange(-150, -100)
@@ -166,7 +171,7 @@ for i in range(10):
 spaceship = Player(WHITE, 20, 15)
 player = pygame.sprite.Group()
 player.add(spaceship)
-all_sprites_list.a     dd(spaceship)
+all_sprites_list.add(spaceship)
 spaceship.rect.y = 450
 spaceship.rect.x = 200
 
@@ -182,25 +187,25 @@ while not done:
             if event.key == pygame.K_SPACE:
                 Laser.shoot(lasers)
     score_text = score_font.render(str(sc), True, WHITE)
-
-    screen.fill(BLACK)
-    screen.blit(backround, [0, 0, 400, 700])
     hits = pygame.sprite.groupcollide(mobs, lasers, True, True)
     for hit in hits:
         sc = sc + (50 - m.radius)
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
-
-        print(sc)
+    screen.fill(BLACK)
+    screen.blit(backround, [backround_x, backround_y])
+    if backround_y == 0:
+        backround_y = 700
+    backround_y = backround_y - 10
+    print(backround_y)
+    screen.blit(backround, [backround_x, backround_y])
     all_sprites_list.update()
     all_sprites_list.draw(screen)
     hits = pygame.sprite.spritecollide(spaceship, mobs, False, pygame.sprite.collide_circle)
     screen.blit(score_text, (score_x, score_y))
     if hits:
         done = True
-
     pygame.display.flip()
     clock.tick(60)
-
 pygame.quit()
