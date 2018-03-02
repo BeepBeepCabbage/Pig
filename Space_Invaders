@@ -40,6 +40,7 @@ img_dir = path.join(path.dirname(__file__), 'H:\\Images')
 backround_x = 0
 backround_y = 0
 
+
 # meteor_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
 spaceship_img = pygame.image.load(path.join(img_dir, "ship3.png")).convert()
 backround = pygame.image.load(path.join(img_dir, "spacefield_a-000.png")).convert()
@@ -212,19 +213,19 @@ class Helper(pygame.sprite.Sprite):
             self.kill()
 
 
-class Moab(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = helper_Img
-        self.image.set_colorkey(BLACK)
-        self.rect = self.image.get_rect()
-        self.rect.x = -20
-        self.rect.y = screen_height - 20
-        self.speedx = 5
-
-    def update(self):
-        self.rect.x += self.speedx
-        shoot()
+# class Moab(pygame.sprite.Sprite):
+#     def __init__(self):
+#         pygame.sprite.Sprite.__init__(self)
+#         self.image = helper_Img
+#         self.image.set_colorkey(BLACK)
+#         self.rect = self.image.get_rect()
+#         self.rect.x = -20
+#         self.rect.y = screen_height - 20
+#         self.speedx = 5
+#
+#     def update(self):
+#         self.rect.x += self.speedx
+#         shoot()
 
 
 def shoot():
@@ -234,7 +235,7 @@ def shoot():
     all_sprites_list.add(laser)
     lasers.add(laser)
 
-
+def help_drop():
 all_sprites_list = pygame.sprite.Group()
 
 done = False
@@ -282,11 +283,11 @@ while not done:
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
-        if shield_chance >= 0.9:
+        if shield_chance >= 0.9 and pygame.time.set_timer(None,1000):
             shield = Shield()
             shield_group.add(shield)
             all_sprites_list.add(shield)
-        if pow_chance >= 0.9:
+        if pow_chance >= 0.9 and pygame.time.set_timer(None,1000):
             power_up = Helper()
             all_sprites_list.add(power_up)
             helper_group.add(power_up)
@@ -310,9 +311,7 @@ while not done:
         if spaceship.hp >= 100:
             spaceship.hp = 100
     hits = pygame.sprite.spritecollide(spaceship, helper_group, True)
-    if hits:
-        g = Moab()
-        all_sprites_list.add(g)
+    # if hits:
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
