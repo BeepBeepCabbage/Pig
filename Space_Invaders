@@ -9,15 +9,15 @@ http://simpson.edu/computer-science/
 Explanation video: http://youtu.be/4W2AqUetBi4
 """
 import random
-import sys
 from os import path
-from threading import Timer
 
 import pygame
 
+pygame.mixer.init()
+
 pygame.font.init()
 
-#  ( http://opengameart.org/users/skorpio ) for spaceship models
+# (http://opengameart.org/users/skorpio ) for spaceship models)
 sc = 0
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -40,7 +40,6 @@ img_dir = path.join(path.dirname(__file__), 'H:\\Images')
 backround_x = 0
 backround_y = 0
 
-
 # meteor_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
 spaceship_img = pygame.image.load(path.join(img_dir, "ship3.png")).convert()
 backround = pygame.image.load(path.join(img_dir, "spacefield_a-000.png")).convert()
@@ -51,27 +50,27 @@ meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
                'meteorBrown_med1.png', 'meteorBrown_med3.png',
                'meteorBrown_small1.png']
 shield_img = pygame.image.load(path.join(img_dir, "heartshield.gif")).convert()
-bolt_img = pygame.image.load(path.join(img_dir, "boxed-fist.png")).convert()
+bolt_img = pygame.image.load(path.join(img_dir, "bolt_gold.png")).convert()
 helper_Img = pygame.image.load(path.join(img_dir, "ship5.png")).convert()
+
+laser_effect = pygame.mixer.Sound(img_dir, 'laser1.wav')
 
 for img in meteor_list:
     meteor_images.append(pygame.image.load(path.join(img_dir, img)).convert())
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, color, width, height):
+    def __init__(self, width, height):
         self.image = pygame.Surface([width, height])
         pygame.sprite.Sprite.__init__(self)
         self.hp = 100
         self.image = spaceship_img
         self.image = pygame.transform.scale(self.image, (50, 40))
         self.image.set_colorkey(WHITE)
-        self.rect = self.image.get_rect()
         self.speedx = 0
         self.speedy = 0
         self.rect = self.image.get_rect()
         self.radius = 20
-        # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
 
     def update(self):
         keystate = pygame.key.get_pressed()
@@ -190,6 +189,7 @@ class Shield(pygame.sprite.Sprite):
         self.rect.x = random.randrange(screen_width - 30)
         self.speedy = -3
         self.image = pygame.transform.scale(self.image, (30, 30))
+        self.radius = int(self.rect.width / 2)
 
     def update(self):
         self.rect.y -= self.speedy
@@ -205,27 +205,13 @@ class Helper(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(screen_width - 30)
         self.speedy = -3
-        self.image = pygame.transform.scale(self.image, (40, 40))
+        self.image = pygame.transform.scale(self.image, (20, 40))
+        self.radius = int(self.rect.width * .95 / 2)
 
     def update(self):
         self.rect.y -= self.speedy
         if self.rect.bottom < 0:
             self.kill()
-
-
-# class Moab(pygame.sprite.Sprite):
-#     def __init__(self):
-#         pygame.sprite.Sprite.__init__(self)
-#         self.image = helper_Img
-#         self.image.set_colorkey(BLACK)
-#         self.rect = self.image.get_rect()
-#         self.rect.x = -20
-#         self.rect.y = screen_height - 20
-#         self.speedx = 5
-#
-#     def update(self):
-#         self.rect.x += self.speedx
-#         shoot()
 
 
 def shoot():
@@ -235,20 +221,20 @@ def shoot():
     all_sprites_list.add(laser)
     lasers.add(laser)
 
-def help_drop():
+
 all_sprites_list = pygame.sprite.Group()
 
 done = False
 
 lasers = pygame.sprite.Group()
-
+shoot_enable = 'off'
 clock = pygame.time.Clock()
 mobs = pygame.sprite.Group()
 for i in range(10):
     m = Mob()
     mobs.add(m)
     all_sprites_list.add(m)
-spaceship = Player(WHITE, 20, 15)
+spaceship = Player(20, 15)
 player = pygame.sprite.Group()
 player.add(spaceship)
 all_sprites_list.add(spaceship)
@@ -264,7 +250,10 @@ shield = Shield()
 helper_group = pygame.sprite.Group()
 big_helper_group = pygame.sprite.Group()
 pygame.display.set_caption('Space Invaders')
+power_up = Helper()
+m = Mob()
 
+shoot_time_then = pygame.time.get_ticks()
 # -------- Main Program Loop -----------
 
 while not done:
@@ -274,6 +263,7 @@ while not done:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 shoot()
+                pygame.mixer.Sound.play(laser_effect, 0, 0, 0)
     score_text = score_font.render(str(sc), True, WHITE)
     hits = pygame.sprite.groupcollide(mobs, lasers, True, True)
     for hit in hits:
@@ -283,14 +273,14 @@ while not done:
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
-        if shield_chance >= 0.9 and pygame.time.set_timer(None,1000):
+        if shield_chance >= 0.9:
             shield = Shield()
             shield_group.add(shield)
             all_sprites_list.add(shield)
-        if pow_chance >= 0.9 and pygame.time.set_timer(None,1000):
-            power_up = Helper()
-            all_sprites_list.add(power_up)
-            helper_group.add(power_up)
+            # if pow_chance >= 0.9:
+            #     power_up = Helper()
+            #     all_sprites_list.add(power_up)
+            #     helper_group.add(power_up)
 
     screen.fill(BLACK)
     screen.blit(backround, [backround_x, backround_y])
@@ -310,8 +300,8 @@ while not done:
         spaceship.hp += 40
         if spaceship.hp >= 100:
             spaceship.hp = 100
-    hits = pygame.sprite.spritecollide(spaceship, helper_group, True)
-    # if hits:
+    # hits = pygame.sprite.spritecollide(spaceship, helper_group,  True)
+
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
