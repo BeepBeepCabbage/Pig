@@ -8,14 +8,14 @@ http://simpson.edu/computer-science/
 
 Explanation video: http://youtu.be/4W2AqUetBi4
 """
+import os
 import random
 from os import path
 
 import pygame
 
+pygame.init()
 pygame.mixer.init()
-
-pygame.font.init()
 
 # (http://opengameart.org/users/skorpio ) for spaceship models)
 sc = 0
@@ -39,10 +39,11 @@ img_dir = path.join(path.dirname(__file__), 'H:\\Images')
 
 backround_x = 0
 backround_y = 0
+backround_y_2 = -600
 
 # meteor_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
 spaceship_img = pygame.image.load(path.join(img_dir, "ship3.png")).convert()
-backround = pygame.image.load(path.join(img_dir, "spacefield_a-000.png")).convert()
+backround = pygame.image.load(path.join(img_dir, "back.png")).convert()
 backround = pygame.transform.scale(backround, (400, 600))
 laser_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
 meteor_images = []
@@ -52,8 +53,11 @@ meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
 shield_img = pygame.image.load(path.join(img_dir, "heartshield.gif")).convert()
 bolt_img = pygame.image.load(path.join(img_dir, "bolt_gold.png")).convert()
 helper_Img = pygame.image.load(path.join(img_dir, "ship5.png")).convert()
-
-laser_effect = pygame.mixer.Sound(img_dir, 'laser1.wav')
+boss_img = pygame.image.load(path.join(img_dir, "boss2.png")).convert()
+# laser_effect = pygame.mixer.Sound('laser_shooting_sfx.wav')
+shield_chance = random.uniform(44, 45)
+shiled_on_off = 'on'
+yes = 1
 
 for img in meteor_list:
     meteor_images.append(pygame.image.load(path.join(img_dir, img)).convert())
@@ -195,6 +199,7 @@ class Shield(pygame.sprite.Sprite):
         self.rect.y -= self.speedy
         if self.rect.bottom < 0:
             self.kill()
+            shiled_on_off = "on"
 
 
 class Helper(pygame.sprite.Sprite):
@@ -212,6 +217,18 @@ class Helper(pygame.sprite.Sprite):
         self.rect.y -= self.speedy
         if self.rect.bottom < 0:
             self.kill()
+
+
+class Boss(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = boss_img
+        self.image = pygame.transform.rotate(self.image, 180)
+
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.x = 100
+        self.rect.y = 100
 
 
 def shoot():
@@ -263,17 +280,21 @@ while not done:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 shoot()
-                pygame.mixer.Sound.play(laser_effect, 0, 0, 0)
+                # pygame.mixer.Sound.play(laser_effect)
+                # pygame.mixer.music.stop()
     score_text = score_font.render(str(sc), True, WHITE)
     hits = pygame.sprite.groupcollide(mobs, lasers, True, True)
     for hit in hits:
-        shield_chance = random.uniform(0, 1)
+        if shiled_on_off == 'on':
+            shield_chance = random.uniform(0, 1)
         pow_chance = random.uniform(0, 1)
         sc = sc + (50 - m.radius)
         m = Mob()
         mobs.add(m)
         all_sprites_list.add(m)
-        if shield_chance >= 0.9:
+
+        if shield_chance >= 0.9 and shiled_on_off == 'on':
+            shiled_on_off = 'off'
             shield = Shield()
             shield_group.add(shield)
             all_sprites_list.add(shield)
@@ -284,6 +305,15 @@ while not done:
 
     screen.fill(BLACK)
     screen.blit(backround, [backround_x, backround_y])
+
+    backround_y += 5
+    if backround_y > 0:
+        screen.blit(backround, [backround_x, backround_y_2])
+        backround_y_2 += 5
+        if backround_y_2 == 0:
+            backround_y = 0
+            backround_y_2 = -600
+
     all_sprites_list.update()
     all_sprites_list.draw(screen)
     hits = pygame.sprite.spritecollide(spaceship, mobs, True, pygame.sprite.collide_circle)
@@ -298,10 +328,14 @@ while not done:
     hits = pygame.sprite.spritecollide(spaceship, shield_group, True)
     if hits:
         spaceship.hp += 40
+        shiled_on_off = "on"
         if spaceship.hp >= 100:
             spaceship.hp = 100
     # hits = pygame.sprite.spritecollide(spaceship, helper_group,  True)
-
+    if sc > 1000 and yes == 1 :
+        b = Boss()
+        yes = 0
+        all_sprites_list.add(b)
     pygame.display.flip()
     clock.tick(60)
 pygame.quit()
