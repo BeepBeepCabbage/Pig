@@ -1,6 +1,8 @@
 <TextureAtlas imagePath="OpenGunnerHeroVer2.png">
+
     <SubTexture name="kil_idle_right.png" x="24" y="143" width="50" height = "50"/>
     <SubTexture name="kil_idle_left.png" x="24" y="200" width="50" height = "50"/>
+
     <SubTexture name="kil_run_r_1.png" x="24" y="315" width="50" height = "50"/>
     <SubTexture name="kil_run_r_2.png" x="75" y="315" width="50" height = "50"/>
     <SubTexture name="kil_run_r_3.png" x="126" y="315" width="50" height = "50"/>
@@ -9,5 +11,16 @@
     <SubTexture name="kil_run_r_5.png" x="279" y="315" width="50" height = "50"/>
     <SubTexture name="kil_run_r_6.png" x="330" y="315" width="50" height = "50"/>
     <SubTexture name="kil_run_r_7.png" x="381" y="315" width="50" height = "50"/>
-    <SubTexture name="kil_run_r_4.png" x="432" y="315" width="50" height = "50"/>
+    <SubTexture name="kil_run_r_8.png" x="432" y="315" width="50" height = "50"/>
+
+    <SubTexture name="kil_run_l_1.png" x="24" y ="375" width="50" height="50"/>
+    <SubTexture name="kil_run_l_2.png" x="75" y ="375" width="50" height="50"/>
+    <SubTexture name="kil_run_l_3.png" x="126" y ="375" width="50" height="50"/>
+    <SubTexture name="kil_run_l_4.png" x="177" y ="375" width="50" height="50"/>
+    <SubTexture name="kil_run_l_5.png" x="228" y ="375" width="50" height="50"/>
+    <SubTexture name="kil_run_l_6.png" x="279" y ="375" width="50" height="50"/>
+    <SubTexture name="kil_run_l_7.png" x="330" y ="375" width="50" height="50"/>
+    <SubTexture name="kil_run_l_8.png" x="381" y ="375" width="50" height="50"/>
+
+    <SubTexture name="" x="" y ="" width="50" height="50"/>
 </TextureAtlas>
