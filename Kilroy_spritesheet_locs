@@ -22,5 +22,41 @@
     <SubTexture name="kil_run_l_7.png" x="330" y ="375" width="50" height="50"/>
     <SubTexture name="kil_run_l_8.png" x="381" y ="375" width="50" height="50"/>
 
-    <SubTexture name="" x="" y ="" width="50" height="50"/>
+    <SubTexture name="kil_run_m_t_r_aim_1" x="25" y ="856" width="50" height="57"/>
+    <SubTexture name="kil_run_m_t_r_aim_2" x="76" y ="856" width="50" height="57"/>
+    <SubTexture name="kil_run_m_t_r_aim_3" x="127" y ="856" width="50" height="57"/>
+    <SubTexture name="kil_run_m_t_r_aim_4" x="178" y ="856" width="50" height="57"/>
+    <SubTexture name="kil_run_m_t_r_aim_5" x="229" y ="856" width="50" height="57"/>
+    <SubTexture name="kil_run_m_t_r_aim_6" x="280" y ="856" width="50" height="57"/>
+    <SubTexture name="kil_run_m_t_r_aim_7" x="331" y ="856" width="50" height="57"/>
+    <SubTexture name="kil_run_m_t_r_aim_8" x="382" y ="856" width="50" height="57"/>
+
+    <SubTexture name="kil_run_t_r_1" x= "25"  y ="925" width="50" height="57"/>
+    <SubTexture name="kil_run_t_r_2" x= "76"  y ="925" width="50" height="57"/>
+    <SubTexture name="kil_run_t_r_3" x= "127" y ="925" width="50" height="57"/>
+    <SubTexture name="kil_run_t_r_4" x= "178" y ="925" width="50" height="57"/>
+    <SubTexture name="kil_run_t_r_5" x= "229" y ="925" width="50" height="57"/>
+    <SubTexture name="kil_run_t_r_6" x= "280" y ="925" width="50" height="57"/>
+    <SubTexture name="kil_run_t_r_7" x= "331" y ="925" width="50" height="57"/>
+    <SubTexture name="kil_run_t_r_8" x= "382" y ="925" width="50" height="57"/>
+
+    <SubTexture name="kil_run_m_l_1" x= "25"  y ="994" width="50" height="57"/>
+    <SubTexture name="kil_run_m_l_2" x= "76"  y ="994" width="50" height="57"/>
+    <SubTexture name="kil_run_m_l_3" x= "127" y ="994" width="50" height="57"/>
+    <SubTexture name="kil_run_m_l_4" x= "178" y ="994" width="50" height="57"/>
+    <SubTexture name="kil_run_m_l_5" x= "229" y ="994" width="50" height="57"/>
+    <SubTexture name="kil_run_m_l_6" x= "280" y ="994" width="50" height="57"/>
+    <SubTexture name="kil_run_m_l_7" x= "331" y ="994" width="50" height="57"/>
+    <SubTexture name="kil_run_m_l_8" x= "382" y ="994" width="50" height="57"/>
+
+    <SubTexture name="kil_run_t_l_1" x= "25"  y ="1063" width="50" height="57"/>
+    <SubTexture name="kil_run_t_l_2" x= "76"  y ="1063" width="50" height="57"/>
+    <SubTexture name="kil_run_t_l_3" x= "127" y ="1063" width="50" height="57"/>
+    <SubTexture name="kil_run_t_l_4" x= "178" y ="1063" width="50" height="57"/>
+    <SubTexture name="kil_run_t_l_5" x= "229" y ="1063" width="50" height="57"/>
+    <SubTexture name="kil_run_t_l_6" x= "280" y ="1063" width="50" height="57"/>
+    <SubTexture name="kil_run_t_l_7" x= "331" y ="1063" width="50" height="57"/>
+    <SubTexture name="kil_run_t_l_8" x= "382" y ="1063" width="50" height="57"/>
+
+
 </TextureAtlas>
