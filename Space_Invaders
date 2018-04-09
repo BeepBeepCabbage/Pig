@@ -1,24 +1,23 @@
-"""
-Use sprites to collect blocks.
-
-Sample Python/Pygame Programs
-Simpson College Computer Science
-http://programarcadegames.com/
-http://simpson.edu/computer-science/
-
-Explanation video: http://youtu.be/4W2AqUetBi4
-"""
-import os
-import random
+import math
 from os import path
 
 import pygame
 
+# from all_classes import *
+
+WIDTH = 800
+HEIGHT = 600
+FPS = 60
+
+# ===============initialize pygame and create window=========
 pygame.init()
 pygame.mixer.init()
+pygame.display.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Kilroy")
+clock = pygame.time.Clock()
 
-# (http://opengameart.org/users/skorpio ) for spaceship models)
-sc = 0
+# ===========Add all Colors=========
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -26,316 +25,150 @@ BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
 GRAY = (128, 128, 128)
 
-score_font = pygame.font.SysFont('Comic Sans MS', 20)
-screen_width = 400
-screen_height = 600
-screen = pygame.display.set_mode([screen_width, screen_height])
-
-score_x = screen_width / 2
-score_y = 20
-pygame.display.init()
-pygame.init()
+# =========================Sprites Images=====================
 img_dir = path.join(path.dirname(__file__), 'H:\\Images')
 
-backround_x = 0
-backround_y = 0
-backround_y_2 = -600
+aim_img = pygame.image.load(path.join(img_dir, "aim.jpg")).convert()
+aim_img = pygame.transform.scale(aim_img, (40, 40))
 
-# meteor_img = pygame.image.load(path.join(img_dir, "meteorBrown_med1.png")).convert()
-spaceship_img = pygame.image.load(path.join(img_dir, "ship3.png")).convert()
-backround = pygame.image.load(path.join(img_dir, "back.png")).convert()
-backround = pygame.transform.scale(backround, (400, 600))
-laser_img = pygame.image.load(path.join(img_dir, "laserRed16.png")).convert()
-meteor_images = []
-meteor_list = ['meteorBrown_big1.png', 'meteorBrown_med1.png',
-               'meteorBrown_med1.png', 'meteorBrown_med3.png',
-               'meteorBrown_small1.png']
-shield_img = pygame.image.load(path.join(img_dir, "heartshield.gif")).convert()
-bolt_img = pygame.image.load(path.join(img_dir, "bolt_gold.png")).convert()
-helper_Img = pygame.image.load(path.join(img_dir, "ship5.png")).convert()
-boss_img = pygame.image.load(path.join(img_dir, "boss2.png")).convert()
-# laser_effect = pygame.mixer.Sound('laser_shooting_sfx.wav')
-shield_chance = random.uniform(44, 45)
-shiled_on_off = 'on'
-yes = 1
+space_back = pygame.image.load(path.join(img_dir, "full-background.png")).convert()
+space_back = pygame.transform.scale(space_back, [1200, HEIGHT])
 
-for img in meteor_list:
-    meteor_images.append(pygame.image.load(path.join(img_dir, img)).convert())
+bullet_img = pygame.image.load(path.join(img_dir, "bullet.png")).convert()
+bullet_img = pygame.transform.scale(bullet_img, [30, 30])
+bullet_img = pygame.transform.rotate(bullet_img, 270)
 
 
+# ======================Define Sprites===================
 class Player(pygame.sprite.Sprite):
-    def __init__(self, width, height):
-        self.image = pygame.Surface([width, height])
-        pygame.sprite.Sprite.__init__(self)
-        self.hp = 100
-        self.image = spaceship_img
-        self.image = pygame.transform.scale(self.image, (50, 40))
-        self.image.set_colorkey(WHITE)
-        self.speedx = 0
-        self.speedy = 0
-        self.rect = self.image.get_rect()
-        self.radius = 20
-
-    def update(self):
-        keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_RIGHT]:
-            self.speedx = 8
-            self.rect.x += self.speedx
-        if keystate[pygame.K_DOWN]:
-            self.speedy = 8
-            self.rect.y += self.speedy
-        if keystate[pygame.K_UP]:
-            self.speedy = -8
-            self.rect.y += self.speedy
-        if keystate[pygame.K_LEFT]:
-            self.speedx = -8
-            self.rect.x += self.speedx
-        if self.rect.right > screen_width:
-            self.rect.right = screen_width
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.top < 0:
-            self.rect.top = 0
-        if self.rect.bottom > screen_height:
-            self.rect.bottom = screen_height
-
-
-class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image_orig = random.choice(meteor_images)
-        self.image_orig.set_colorkey(BLACK)
-        self.image = self.image_orig.copy()
-        self.rect = self.image.get_rect()
-        self.radius = int(self.rect.width * .95 / 2)
-        self.rect.x = random.randrange(screen_width - self.rect.width)
-        self.rect.y = random.randrange(-150, -100)
-        self.speedy = random.randrange(1, 8)
-        self.speedx = random.randrange(-3, 3)
-        self.rot = 0
-        self.rot_speed = random.randrange(-8, 8)
-        self.last_update = pygame.time.get_ticks()
-
-    def rotate(self):
-        now = pygame.time.get_ticks()
-        if now - self.last_update > 50:
-            self.last_update = now
-            self.rot = (self.rot + self.rot_speed) % 360
-            new_image = pygame.transform.rotate(self.image_orig, self.rot)
-            old_center = self.rect.center
-            self.image = new_image
-            self.rect = self.image.get_rect()
-            self.rect.center = old_center
-
-    def update(self):
-        self.rotate()
-        self.rect.x += self.speedx
-        self.rect.y += self.speedy
-        if self.rect.top > screen_height + 10:
-            self.rect.x = random.randrange(screen_width - self.rect.width)
-            self.rect.y = random.randrange(-100, -40)
-            self.speedy = random.randrange(1, 8)
-        if self.rect.x < 0 or self.rect.right > screen_width:
-            self.speedx = self.speedx * -1
-
-
-class Laser(pygame.sprite.Sprite):
-    def __init__(self, color, width, height):
-        # Call the parent class (Sprite) constructor
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.speedy = 8
-        self.image.set_colorkey(BLACK)
-        self.rect = self.image.get_rect()
-        self.image = laser_img
-
-    def update(self):
-        self.rect.y = self.rect.y - self.speedy
-        if self.rect.bottom > screen_height:
-            self.kill()
-
-
-class Health(pygame.sprite.Sprite):
-    def __init__(self, color):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([spaceship.hp, 10])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.rect.x = 10
-        self.rect.y = 10
-
-    def update(self):
-        self.image = pygame.Surface([spaceship.hp, 20])
-        self.image.fill(GREEN)
-        if spaceship.hp <= 0:
-            spaceship.hp = 0
-
-
-class Outline(pygame.sprite.Sprite):
-    def __init__(self, color):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([spaceship.hp + 10, 30])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.rect.x = 5
-        self.rect.y = 5
-
-
-class Shield(pygame.sprite.Sprite):
-    def __init__(self):
-        # Call the parent class (Sprite) constructor
-        pygame.sprite.Sprite.__init__(self)
-        self.image = shield_img
-        self.image.set_colorkey(WHITE)
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(screen_width - 30)
-        self.speedy = -3
-        self.image = pygame.transform.scale(self.image, (30, 30))
-        self.radius = int(self.rect.width / 2)
-
-    def update(self):
-        self.rect.y -= self.speedy
-        if self.rect.bottom < 0:
-            self.kill()
-            shiled_on_off = "on"
-
-
-class Helper(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = bolt_img
-        self.image.set_colorkey(BLACK)
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randrange(screen_width - 30)
-        self.speedy = -3
-        self.image = pygame.transform.scale(self.image, (20, 40))
-        self.radius = int(self.rect.width * .95 / 2)
-
-    def update(self):
-        self.rect.y -= self.speedy
-        if self.rect.bottom < 0:
-            self.kill()
-
-
-class Boss(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = boss_img
-        self.image = pygame.transform.rotate(self.image, 180)
-
-        self.image.set_colorkey(BLACK)
+        self.image = pygame.Surface([20, 20])
+        self.image.fill(BLACK)
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = 100
+        self.speed_x = 0
+        self.speed_y = -200
+
+    def update(self):
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_d]:
+            self.speed_x = 5
+        elif keystate[pygame.K_a]:
+            self.speed_x = -5
+        else:
+            self.speed_x = 0
+        self.rect.x += self.speed_x
+        if self.rect.bottom >= 540:
+            self.rect.bottom = 540
+        if self.rect.left <= 0:
+            self.rect.left = 0
+            self.speed_x = 0
+        if self.rect.right >= WIDTH:
+            self.rect.right = WIDTH
+            self.speed_x = 0
 
 
-def shoot():
-    laser = Laser(BLUE, 10, 20)
-    laser.rect.y = spaceship.rect.y - 25
-    laser.rect.x = spaceship.rect.x + 20
-    all_sprites_list.add(laser)
-    lasers.add(laser)
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([20, 20])
+        self.rect = self.image.get_rect()
+        self.image = bullet_img
+        self.image.set_colorkey(WHITE)
+        self.speed_x = 0
+        self.speed_y = 0
+        self.rect.center = kilroy.rect.center
+
+    def update(self):
+        if distance:
+            self.rect.x += dx
+            self.rect.y += dy
+        if self.rect.x > WIDTH or self.rect.y > HEIGHT or self.rect.y < 0 or self.rect.x < 0:
+            self.kill()
 
 
+class Platform(pygame.sprite.Sprite):
+    def __init__(self, plat_x, plat_y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([50, 50])
+        self.rect = self.image.get_rect()
+        self.image.fill(BLACK)
+        self.rect.x = plat_x
+        self.rect.y = plat_y
+
+    def update(self):
+        self.rect.x -= kilroy.speed_x
+
+
+# ===============Add all Sprites=========
 all_sprites_list = pygame.sprite.Group()
 
-done = False
+kilroy = Player()
+all_sprites_list.add(kilroy)
+kilroy_group = pygame.sprite.Group()
 
-lasers = pygame.sprite.Group()
-shoot_enable = 'off'
-clock = pygame.time.Clock()
-mobs = pygame.sprite.Group()
-for i in range(10):
-    m = Mob()
-    mobs.add(m)
-    all_sprites_list.add(m)
-spaceship = Player(20, 15)
-player = pygame.sprite.Group()
-player.add(spaceship)
-all_sprites_list.add(spaceship)
-spaceship.rect.y = 450
-spaceship.rect.x = 200
-events = pygame.event.get()
-outline = Outline(WHITE)
-all_sprites_list.add(outline)
-bar = Health(GREEN)
-all_sprites_list.add(bar)
-shield_group = pygame.sprite.Group()
-shield = Shield()
-helper_group = pygame.sprite.Group()
-big_helper_group = pygame.sprite.Group()
-pygame.display.set_caption('Space Invaders')
-power_up = Helper()
-m = Mob()
+bullet = Bullet()
+bullet_group = pygame.sprite.Group()
 
-shoot_time_then = pygame.time.get_ticks()
-# -------- Main Program Loop -----------
+plat_groupp = pygame.sprite.Group()
+platfromer = Platform(100, 100)
+plat_x_2 = 50
+for i in range(36):
+    platfromer = Platform(plat_x_2, 450)
+    plat_x_2 += 50
+    plat_groupp.add(platfromer)
+    all_sprites_list.add(platfromer)
 
-while not done:
+# ======================Define Variables=================
+
+stage_pos_x = 0
+
+gravity = -6
+x, y = bullet.rect.x, bullet.rect.y
+pmx, pmy = x, y
+
+dx, dy = 0, 0
+distance = 0
+speed = 14
+last_update = pygame.time.get_ticks()
+# =========================game loop=====================
+running = True
+while running:
+    collide = pygame.sprite.spritecollide(kilroy, plat_groupp, None)
+    if collide:
+        kilroy.rect.bottom = platfromer.rect.top
+    now = pygame.time.get_ticks()
+    screen.fill(BLACK)
+    clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            done = True
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                shoot()
-                # pygame.mixer.Sound.play(laser_effect)
-                # pygame.mixer.music.stop()
-    score_text = score_font.render(str(sc), True, WHITE)
-    hits = pygame.sprite.groupcollide(mobs, lasers, True, True)
-    for hit in hits:
-        if shiled_on_off == 'on':
-            shield_chance = random.uniform(0, 1)
-        pow_chance = random.uniform(0, 1)
-        sc = sc + (50 - m.radius)
-        m = Mob()
-        mobs.add(m)
-        all_sprites_list.add(m)
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w and collide:
+                kilroy.rect.y += kilroy.speed_y
+            if event.key == pygame.K_SPACE and now - last_update > 900:
+                last_update = pygame.time.get_ticks()
+                all_sprites_list.add(bullet)
+                mx, my = pygame.mouse.get_pos()
+                bullet.rect.center = kilroy.rect.center
+                radians = math.atan2(my - bullet.rect.y, mx - bullet.rect.x)
+                distance = math.hypot(mx - pmx, my - pmy) / speed
+                distance = int(distance)
+                dx = math.cos(radians) * speed
+                dy = math.sin(radians) * speed
 
-        if shield_chance >= 0.9 and shiled_on_off == 'on':
-            shiled_on_off = 'off'
-            shield = Shield()
-            shield_group.add(shield)
-            all_sprites_list.add(shield)
-            # if pow_chance >= 0.9:
-            #     power_up = Helper()
-            #     all_sprites_list.add(power_up)
-            #     helper_group.add(power_up)
-
-    screen.fill(BLACK)
-    screen.blit(backround, [backround_x, backround_y])
-
-    backround_y += 5
-    if backround_y > 0:
-        screen.blit(backround, [backround_x, backround_y_2])
-        backround_y_2 += 5
-        if backround_y_2 == 0:
-            backround_y = 0
-            backround_y_2 = -600
-
+    if stage_pos_x <= -400:
+        stage_pos_x = -400
+    elif kilroy.rect.x >= WIDTH / 2 - 100:
+        stage_pos_x -= kilroy.speed_x
+        # plat_x_2 -= kilroy.speed_x
+        kilroy.rect.x = WIDTH / 2 - 100
+    kilroy.rect.y -= gravity
+    screen.blit(space_back, [stage_pos_x, 0])
     all_sprites_list.update()
+    bullet_group.update()
     all_sprites_list.draw(screen)
-    hits = pygame.sprite.spritecollide(spaceship, mobs, True, pygame.sprite.collide_circle)
-    screen.blit(score_text, (score_x, score_y))
-    if hits:
-        spaceship.hp -= m.radius
-        m = Mob()
-        mobs.add(m)
-        all_sprites_list.add(m)
-        if spaceship.hp <= 0:
-            done = True
-    hits = pygame.sprite.spritecollide(spaceship, shield_group, True)
-    if hits:
-        spaceship.hp += 40
-        shiled_on_off = "on"
-        if spaceship.hp >= 100:
-            spaceship.hp = 100
-    # hits = pygame.sprite.spritecollide(spaceship, helper_group,  True)
-    if sc > 1000 and yes == 1 :
-        b = Boss()
-        yes = 0
-        all_sprites_list.add(b)
     pygame.display.flip()
-    clock.tick(60)
 pygame.quit()
